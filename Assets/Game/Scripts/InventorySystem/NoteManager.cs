@@ -23,5 +23,6 @@ public class NoteManager : MonoBehaviour
                 InventoryManager.instance.AddItem(item);
             }
         }
+        UiManager.instance.DisplayNote(note);
     }
 }

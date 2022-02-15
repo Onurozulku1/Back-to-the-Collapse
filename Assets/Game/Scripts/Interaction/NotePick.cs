@@ -9,8 +9,15 @@ public class NotePick : Interactable
     public override void Interact()
     {
         base.Interact();
-        NoteManager.instance.AddNote(Note);
+        PickNote();
+
     }
 
-    
+    public void PickNote()
+    {
+        NoteManager.instance.AddNote(Note);
+        Destroy(gameObject);
+    }
+
+
 }
