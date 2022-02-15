@@ -13,10 +13,11 @@ public class ItemPick : Interactable
 
     public void PickItem()
     {
-        if (InventoryManager.instance.AddItem(item))
-            Destroy(gameObject);
-        else
-            Debug.Log("envanter dolu");
+        if (!InventoryManager.instance.AddItem(item))
+        {
+            Debug.Log("Envanter Dolu");
+        }
+        Destroy(gameObject);
 
     }
 }

@@ -6,6 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] ItemSlot[] itemSlots;
     [SerializeField] GameObject slots;
+    List<Item> Items = new List<Item>();
 
     private void OnValidate()
     {
@@ -23,17 +24,37 @@ public class InventoryManager : MonoBehaviour
 
     public bool AddItem(Item _item)
     {
-        for (int i = 0; i < itemSlots.Length; i++)
+        if (Items.Count < 8)
         {
-            if (itemSlots[i].item == null)
+            Items.Add(_item);
+            ResetInventory();
+            return true;
+        }
+
+        return false;
+    }
+
+    void ResetInventory()
+    {
+        foreach (Item item in Items)
+        {
+            foreach (ItemSlot itemSlot in itemSlots)
             {
-                itemSlots[i].item = _item;
-                return true;
+                if (itemSlot.item == null)
+                {
+                    itemSlot.item = item;
+                    break;
+                }
             }
-            else
+        }
+    }
+    public bool CheckItem(Item _item)
+    {
+        foreach (Item item in Items)
+        {
+            if (item == _item)
             {
-                if (i == itemSlots.Length - 1)
-                    return false;
+                return true;
             }
         }
         return false;

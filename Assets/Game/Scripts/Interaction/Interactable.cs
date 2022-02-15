@@ -34,5 +34,6 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawSphere(transform.position, InteractRadius);
     }
 
+
    
 }
