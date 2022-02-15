@@ -10,9 +10,6 @@ public class KeyInteraction : Interactable
     {
         base.Interact();
 
-        if (InventoryManager.instance.CheckItem(KeyItem))
-        {
-            Debug.Log("gerekli item mevcut");
-        }
+        
     }
 }

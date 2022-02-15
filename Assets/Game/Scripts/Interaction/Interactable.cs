@@ -26,6 +26,13 @@ public class Interactable : MonoBehaviour
                 GameManager.instance.InteractedObject = this;
             }
         }
+        else
+        {
+            if (GameManager.instance.InteractedObject == this)
+            {
+                GameManager.instance.InteractedObject = null;
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
