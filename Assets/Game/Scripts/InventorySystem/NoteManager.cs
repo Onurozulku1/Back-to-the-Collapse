@@ -16,5 +16,12 @@ public class NoteManager : MonoBehaviour
     public void AddNote(Note note)
     {
         Notes.Add(note);
+        foreach (var item in note.ItemsWithNote)
+        {
+            if (item != null)
+            {
+                InventoryManager.instance.AddItem(item);
+            }
+        }
     }
 }
