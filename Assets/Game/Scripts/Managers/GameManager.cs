@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Interactable InteractedObject;
+    //menzilinde olduðumuz interact objesini anlýk olarak tutuyor ve input gelince tuttuðu objenin interact metodunu çaðýrýyor.
+    public Interactable InteractedObject; 
+
 
     #region Singleton
     public static GameManager instance;

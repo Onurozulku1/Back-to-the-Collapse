@@ -49,7 +49,6 @@ public class EnemyController : MonoBehaviour
                 }
                 else if (PlayerAngle > (Properties.VisionAngle * 0.5f) && PlayerAngle < (Properties.NoticeAngle * 0.5f) && PlayerDistance < Properties.SightRange * 0.4f)
                 {
-                    Debug.Log(noticeTimer);
                     if (noticeTimer < Properties.NoticeTime)
                     {
                         noticeTimer += Time.deltaTime;

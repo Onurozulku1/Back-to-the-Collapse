@@ -11,13 +11,28 @@ public class DoorInteraction : KeyInteraction
     {
         base.Interact();
 
-        if (InventoryManager.instance.CheckItem(KeyItem) && isLocked)
+        UnlockDoor();
+
+        OpenDoor();
+    }
+
+    private void OpenDoor()
+    {
+        if (isLocked)
+            return;
+
+        isOpen = !isOpen;
+    }
+
+    private void UnlockDoor()
+    {
+        if (!isLocked)
+            return;
+
+        if (HasKey())
         {
             isLocked = false;
+            Debug.Log("Kilit açýldý");
         }
-
-        if (!isLocked)
-            isOpen = !isOpen;
-
     }
 }

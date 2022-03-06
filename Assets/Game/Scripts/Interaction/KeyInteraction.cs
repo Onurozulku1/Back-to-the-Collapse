@@ -12,4 +12,9 @@ public class KeyInteraction : Interactable
 
         
     }
+
+    protected bool HasKey()
+    {
+        return InventoryManager.instance.RemoveItem(KeyItem);
+    }
 }

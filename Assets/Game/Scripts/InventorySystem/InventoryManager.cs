@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] ItemSlot[] itemSlots;
     [SerializeField] GameObject slots;
-    List<Item> Items = new List<Item>();
+    List<Item> Items = new();
 
     private void OnValidate()
     {
@@ -19,7 +19,6 @@ public class InventoryManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-
     }
 
     public bool AddItem(Item _item)
@@ -31,8 +30,24 @@ public class InventoryManager : MonoBehaviour
             return true;
         }
 
+        Debug.Log("Envanter dolu");
         return false;
     }
+
+    public bool RemoveItem(Item _item)
+    {
+        foreach (Item item in Items)
+        {
+            if (item == _item)
+            {
+                Items.Remove(item);
+                return true;
+            }
+        }
+        Debug.Log(_item + " envanterde yok");
+        return false;
+    }
+
 
     void ResetInventory()
     {
@@ -48,15 +63,5 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-    public bool CheckItem(Item _item)
-    {
-        foreach (Item item in Items)
-        {
-            if (item == _item)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+   
 }
