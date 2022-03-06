@@ -29,15 +29,15 @@ public class EnemyIdleState : EnemyBaseState
     public override void UpdateState(EnemyStateManager enemy)
     {
        
-        if (enemy.Controller.EnemyFOV())
+        if (Controller.EnemyFOV())
         {
             enemy.SwitchState(enemy.ChasingState);
             return;
         }
 
-        if (enemy.Controller.EnemyHear())
+        if (Controller.EnemyHear())
         {
-            Debug.Log("hearing");
+            Controller.FaceToPlayer();
         }
 
         if (OnLocation(enemy))

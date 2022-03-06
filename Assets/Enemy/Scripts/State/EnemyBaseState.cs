@@ -3,7 +3,7 @@
 public abstract class EnemyBaseState 
 {
     protected EnemyController Controller;
-    protected EnemyMainFeatures Properties;
+    protected EnemyProperties Properties;
     protected EnemyCombat enemyCombat;
 
     

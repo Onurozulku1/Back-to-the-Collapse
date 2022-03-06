@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 [CreateAssetMenu(fileName = "New Enemy Properties")]
-public class EnemyMainFeatures : ScriptableObject
+public class EnemyProperties : ScriptableObject
 {
     public float ChasingSpeed = 3f;
     public float SearchingSpeed = 1.2f;
@@ -13,8 +13,7 @@ public class EnemyMainFeatures : ScriptableObject
 
     public float NoticeTime = 3f;
 
-    public float MemoryTime = 5f;
-    public float CacheTime = 3f;
+    public float SearchingTime = 5f;
 
     public Transform Player;
 

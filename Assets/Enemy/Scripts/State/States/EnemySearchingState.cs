@@ -35,15 +35,20 @@ public class EnemySearchingState : EnemyBaseState
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        if (enemy.Controller.EnemyFOV())
+        if (Controller.EnemyFOV())
         {
             enemy.SwitchState(enemy.ChasingState);
             return;
         }
 
+        if (Controller.EnemyHear())
+        {
+            Controller.FaceToPlayer();
+        }
+
 
         searchTimer += Time.deltaTime;
-        if (searchTimer > Properties.MemoryTime)
+        if (searchTimer > Properties.SearchingTime)
         {
             enemy.SwitchState(enemy.IdleState);
         }

@@ -9,17 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebe20c79f9fdd064f83044f46845b28c, type: 3}
-  m_Name: EnemyProperties1
+  m_Script: {fileID: 11500000, guid: d6652eee2af5e7e4db0f61952a19dbb4, type: 3}
+  m_Name: New Enemy Properties
   m_EditorClassIdentifier: 
-  ChasingSpeed: 4
-  SearchingSpeed: 3
-  PatrollingSpeed: 2
-  HearRange: 8
-  SightRange: 16
-  VisionAngle: 160
+  ChasingSpeed: 3
+  SearchingSpeed: 1.2
+  PatrollingSpeed: 1
+  HearRange: 4
+  SightRange: 10
+  VisionAngle: 120
   NoticeAngle: 180
-  NoticeTime: 3
-  MemoryTime: 5
-  CacheTime: 3
+  NoticeTime: 2
+  SearchingTime: 5
   Player: {fileID: 0}
