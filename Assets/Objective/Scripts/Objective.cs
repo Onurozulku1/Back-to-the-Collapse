@@ -2,17 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Objective : MonoBehaviour
+[System.Serializable]
+public class Objective : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    public ObjectiveManager Manager;
+
+    public string Title;
+    [TextArea] public string Description;
+    public bool IsActive;
+    public Objective BridgeObjective;
+
+    private void Awake()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual bool IsAchived()
     {
-        
+        return false;
     }
+
+    public virtual void OnComplete()
+    {
+        Manager = ObjectiveManager.instance;
+        Manager.CompleteObjective(this);
+    }
+
 }
