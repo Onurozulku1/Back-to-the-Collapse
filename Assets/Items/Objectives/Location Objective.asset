@@ -17,5 +17,5 @@ MonoBehaviour:
   Description: 
   IsActive: 0
   BridgeObjective: {fileID: 0}
-  TargetLocation: {x: 5.31, y: 0.26, z: 0}
+  TargetLocation: {x: 5.31, y: 0.26, z: -5.96}
   TargetDistance: 2

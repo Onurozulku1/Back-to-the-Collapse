@@ -25,7 +25,9 @@ public class ObjectiveManager : MonoBehaviour
 
     public void CompleteObjective(Objective objective)
     {
-        ActiveObjectives.Remove(objective);
+        if (ActiveObjectives.Contains(objective))
+            ActiveObjectives.Remove(objective);
+
         objective.IsActive = false;
 
         if (objective.BridgeObjective != null)
@@ -37,16 +39,22 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Update()
     {
+        CheckObjective();
+    }
+
+    public void CheckObjective()
+    {
         if (ActiveObjectives == null)
             return;
 
-        foreach (Objective item in ActiveObjectives)
+        for (int i = 0; i < ActiveObjectives.Count; i++)
         {
-            if (item.IsAchived())
+            if (ActiveObjectives[i].IsAchived())
             {
-                item.OnComplete();
+                ActiveObjectives[i].OnComplete();
             }
         }
+        
     }
 
 }
