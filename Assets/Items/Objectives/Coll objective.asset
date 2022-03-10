@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2968a5e09a6ab2d4cbe6c54183ed4775, type: 3}
-  m_Name: Location Objective
+  m_Script: {fileID: 11500000, guid: 5b1125654f4840445adc9fd49e7a3ec0, type: 3}
+  m_Name: Coll objective
   m_EditorClassIdentifier: 
   Title: 
   Description: 
-  IsActive: 0
+  IsActive: 1
   BridgeObjective: {fileID: 0}
-  TargetLocation: {x: 5.31, y: 0.26, z: -5.96}
-  TargetDistance: 2
+  RequiredItems:
+  - {fileID: 11400000, guid: 472909a0aafc49843b10d1f10254e2e7, type: 2}
+  - {fileID: 11400000, guid: 4cd14e7cda3e50e429bd367dd26d99ca, type: 2}

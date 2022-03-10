@@ -17,4 +17,5 @@ MonoBehaviour:
     i\xE7in d\xFC\u015F\xFCn\xFClsede b\xFCy\xFCk bir de\u011Fi\u015Fiklikle pc platformuna
     \xE7evrildi. Umar\u0131m her \u015Fey istedi\u011Fim gibi gider."
   Author: Onur
-  ItemsWithNote: []
+  ItemsWithNote:
+  - {fileID: 11400000, guid: 472909a0aafc49843b10d1f10254e2e7, type: 2}
