@@ -6,7 +6,8 @@ public class EnemyController : MonoBehaviour
 {
     public EnemyProperties Properties;
     [HideInInspector] public NavMeshAgent Agent;
-    
+
+    public bool isPatrolling = false;
 
     //FOV
     private float PlayerAngle = 200f;
@@ -27,12 +28,15 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         Properties.Player = GameObject.FindGameObjectWithTag("Player").transform;
+        enemyStateManager = GetComponent<EnemyStateManager>();
     }
 
     private void Update()
     {
         PlayerAngle = Vector3.Angle(transform.forward, (Properties.Player.position - transform.position).normalized);
         PlayerDistance = Vector3.Distance(Properties.Player.position, transform.position);
+
+        EnemyHearing();
     }
 
 
@@ -65,16 +69,24 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-    public bool EnemyHear()
+    #region Hearing
+
+    public bool EnemyHeard = false;
+    private IEnumerator HeardPlayer()
+    {
+        yield return new WaitForSeconds(Properties.SearchingTime);
+        EnemyHeard = false;
+    }
+    public void EnemyHearing()
     {
         if (PlayerDistance > Properties.HearRange || Properties.Player.GetComponent<PlayerMovement>().isCrouching) 
         {
-            return false;
+            return;
         }
 
         if (!Properties.Player.GetComponent<PlayerMovement>().isCrouching && Mathf.RoundToInt(Properties.Player.GetComponent<Rigidbody>().velocity.magnitude) == 0)
         {
-            return false;
+            return;
 
         }
 
@@ -82,17 +94,34 @@ public class EnemyController : MonoBehaviour
         {
             if (!hit.collider.CompareTag("Player"))
             {
-                return false;
+                return;
             }
         }
 
-        return true;
+        EnemyHeard = true;
     }
-    
+
+    #endregion
+
+    private EnemyStateManager enemyStateManager;
+    public void CheckPlayer()
+    {
+        if (EnemyFOV())
+        {
+            enemyStateManager.SwitchState(enemyStateManager.ChasingState);
+            return;
+        }
+
+        if (EnemyHeard)
+        {
+            FaceToPlayer();
+        }
+    }
     public void FaceToPlayer()
     {
         Vector3 lookRotation = (Properties.Player.position - transform.position).normalized;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookRotation, Vector3.up), 0.05f);
+        StartCoroutine(HeardPlayer());
     }
 
     private void OnDrawGizmos()

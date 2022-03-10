@@ -31,14 +31,6 @@ public class DialogueManager : MonoBehaviour
         sentences = new Queue<string>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && _dialogue != null)
-        {
-            DisplayNextSentence();
-        }
-    }
-
     private Dialogue _dialogue;
     public void StartDialogue(Dialogue dialogue)
     {

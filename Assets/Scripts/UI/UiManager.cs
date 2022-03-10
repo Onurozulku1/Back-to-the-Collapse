@@ -30,12 +30,6 @@ public class UiManager : MonoBehaviour
             instance = this;
     }
 
-    private void Update()
-    {
-        Debug.Log(DisplayingTabs());
-
-    }
-
     public void DisplayNote(Note note)
     {
         NotePanel.SetActive(true);

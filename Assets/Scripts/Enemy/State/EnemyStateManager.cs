@@ -11,6 +11,7 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyAttackState AttackState = new();
     public EnemySearchingState SearchingState = new();
     public EnemyIdleState IdleState = new();
+    public EnemyPatrollingState PatrollingState = new();
 
     public EnemyController Controller;
     
@@ -33,7 +34,7 @@ public class EnemyStateManager : MonoBehaviour
 
     void Start()
     {
-        currentState = IdleState;
+        currentState = Controller.isPatrolling ? PatrollingState : IdleState;
         currentState.EnterState(this);
     }
 
