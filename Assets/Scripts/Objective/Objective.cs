@@ -11,6 +11,9 @@ public class Objective : ScriptableObject
     public bool IsActive;
     public Objective BridgeObjective;
 
+    public Mission ParentMission;
+
+
 
     public virtual bool IsAchived()
     {

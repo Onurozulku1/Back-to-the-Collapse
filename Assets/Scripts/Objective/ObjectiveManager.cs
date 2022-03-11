@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ObjectiveManager : MonoBehaviour
 {
-    public Objective[] Objectives;
+    public Mission[] Missions;
+    private List<Mission> ActiveMissions;
     public List<Objective> ActiveObjectives;
 
     public static ObjectiveManager instance;
@@ -12,15 +13,32 @@ public class ObjectiveManager : MonoBehaviour
     {
         instance = this;
 
-        if (Objectives == null)
-            return;
 
-        ActiveObjectives = new List<Objective>();
-        foreach (Objective obj in Objectives)
+        if (Missions != null)
         {
-            if (obj.IsActive)
-                ActiveObjectives.Add(obj);
+            ActiveMissions = new List<Mission>();
+            foreach (Mission mission in Missions)
+            {
+                if (mission.IsActive)
+                {
+                    ActiveMissions.Add(mission);
+
+                    if (mission.objectives == null)
+                        return;
+
+                    foreach (Objective objective in mission.objectives)
+                    {
+                        if (objective.IsActive)
+                        {
+                            ActiveObjectives.Add(objective);
+                        }
+                    }
+                }
+            }
         }
+
+        SetParentMissions();
+
     }
 
     public void CompleteObjective(Objective objective)
@@ -35,6 +53,21 @@ public class ObjectiveManager : MonoBehaviour
             objective.BridgeObjective.IsActive = true;
             ActiveObjectives.Add(objective.BridgeObjective);
         }
+
+        if (IsMissionCompleted(objective))
+        {
+            objective.ParentMission.IsActive = false;
+        }
+    }
+
+    private bool IsMissionCompleted(Objective objective)
+    {
+        foreach (Objective item in objective.ParentMission.objectives)
+        {
+            if (item.IsActive)
+                return false;
+        }
+        return true;
     }
 
     private void Update()
@@ -56,5 +89,29 @@ public class ObjectiveManager : MonoBehaviour
         }
         
     }
+
+    public void SetParentMissions()
+    {
+        if (Missions != null)
+        {
+            foreach (Mission mission in Missions)
+            {
+                foreach (Objective objective in mission.objectives)
+                {
+                    objective.ParentMission = mission;
+                }
+            }
+        }
+        
+    }
+
+}
+
+[System.Serializable]
+public struct Mission
+{
+    public string Title;
+    public Objective[] objectives;
+    public bool IsActive;
 
 }
