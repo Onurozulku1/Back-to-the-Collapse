@@ -5,7 +5,8 @@ using UnityEngine;
 public class ObjectiveManager : MonoBehaviour
 {
     public Mission[] Missions;
-    private List<Mission> ActiveMissions;
+    public List<Mission> ActiveMissions;
+
     public List<Objective> ActiveObjectives;
 
     public static ObjectiveManager instance;

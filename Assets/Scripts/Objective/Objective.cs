@@ -6,7 +6,6 @@ using UnityEngine;
 public class Objective : ScriptableObject
 {
 
-    public string Title;
     [TextArea] public string Description;
     public bool IsActive;
     public Objective BridgeObjective;

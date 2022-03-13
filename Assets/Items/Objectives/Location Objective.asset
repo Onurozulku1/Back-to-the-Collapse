@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2968a5e09a6ab2d4cbe6c54183ed4775, type: 3}
   m_Name: Location Objective
   m_EditorClassIdentifier: 
-  Title: 
-  Description: 
+  Description: Go to the specified location
   IsActive: 1
   BridgeObjective: {fileID: 0}
   ParentMission:
-    Title: Go yourself
+    Title: Escape from cell
     objectives:
     - {fileID: 11400000, guid: eb35ef60a1e5c814db0b825ee22d5015, type: 2}
     - {fileID: 11400000}
