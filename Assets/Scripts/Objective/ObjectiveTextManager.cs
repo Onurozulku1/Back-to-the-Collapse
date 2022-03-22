@@ -5,64 +5,66 @@ using TMPro;
 
 public class ObjectiveTextManager : MonoBehaviour
 {
-    public TMP_Text denemeText;
+    public GameObject MissionObj;
+    public GameObject[] MissionObjects;
 
-    ObjectiveManager objectiveManager;
-    private float missionPosY = 170;
+    [Range(0, 100)] public float spacing = 10;
 
-    public GameObject[] missionObjects;
-    public GameObject missionObject;
+    private Vector3 MissionObjPos;
 
-    public float spacing = 10;
-
+    ObjectiveManager objMgr;
     private void Awake()
     {
-        objectiveManager = ObjectiveManager.instance;
-        missionObjects = new GameObject[5];
+        objMgr = ObjectiveManager.instance;
+        MissionObjects = new GameObject[5];
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < MissionObjects.Length; i++)
         {
-            missionObjects[i] = Instantiate(missionObject, transform);
-            missionObjects[i].name = "MissionDisplayItem";
-            missionObjects[i].SetActive(false);
-
+            MissionObjects[i] = Instantiate(MissionObj);
+            MissionObjects[i].transform.SetParent(transform);
+            MissionObjects[i].name = "Mission" + i + " Object";
         }
-        AdjustObjectiveHUD();
+        SetTexts();
+    }
+
+
+    public void SetTexts()
+    {
+        for (int k = 0; k < objMgr.ActiveMissions.Count; k++)
+        {
+            TMP_Text[] textObjects = MissionObjects[k].GetComponentsInChildren<TMP_Text>();
+
+            textObjects[0].text = objMgr.ActiveMissions[k].Title;
+
+            for (int i = 0; i < objMgr.ActiveMissions[k].objectives.Length; i++)
+            {
+                textObjects[i + 1].text = objMgr.ActiveMissions[k].objectives[i].Description;
+                textObjects[i + 1].gameObject.SetActive(true);
+            }
+            for (int j = objMgr.ActiveMissions[k].objectives.Length + 1; j < 6; j++)
+            {
+                textObjects[j].gameObject.SetActive(false);
+            }
+            
+        }
+        
     }
     private void Update()
     {
-            Debug.Log(missionObjects[0].GetComponent<RectTransform>().rect.height);
-
+        AdjustMissionPos();
     }
-    private TMP_Text[] MissionTexts;
-    private RectTransform rectTransform;
-    public void AdjustObjectiveHUD()
+    public void AdjustMissionPos()
     {
-        for (int i = 0; i < objectiveManager.ActiveMissions.Count; i++)
+        MissionObjPos = Vector3.zero;
+        for (int k = 0; k < objMgr.ActiveMissions.Count; k++)
         {
-            
-            missionObjects[i].SetActive(true);
-            MissionTexts = missionObjects[i].GetComponentsInChildren<TMP_Text>();
-            MissionTexts[0].text = objectiveManager.ActiveMissions[i].Title;
-            MissionTexts[0].gameObject.SetActive(true);
-
-            for (int j = 0; j < objectiveManager.ActiveMissions[i].objectives.Length; j++)
-            {
-                MissionTexts[j+1].gameObject.SetActive(true);
-                MissionTexts[j+1].text = objectiveManager.ActiveMissions[i].objectives[j].Description;
-            }
-            for (int k = objectiveManager.ActiveMissions[i].objectives.Length + 1; k < 6; k++)
-            {
-                MissionTexts[k].gameObject.SetActive(false);
-                MissionTexts[k].text = " ";
-
-            }
-
-            rectTransform = missionObjects[i].GetComponent<RectTransform>();
-            rectTransform.localPosition = Vector2.up * missionPosY;
-            missionPosY -= Mathf.Ceil(rectTransform.rect.height + spacing);
-
+            RectTransform rectTransform = MissionObjects[k].GetComponent<RectTransform>();
+            rectTransform.localPosition = MissionObjPos;
+            MissionObjPos += (rectTransform.rect.height + spacing - 40) * Vector3.down;
         }
 
     }
+
+
+
 }

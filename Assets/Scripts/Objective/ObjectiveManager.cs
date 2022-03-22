@@ -14,30 +14,7 @@ public class ObjectiveManager : MonoBehaviour
     {
         instance = this;
 
-
-        if (Missions != null)
-        {
-            ActiveMissions = new List<Mission>();
-            foreach (Mission mission in Missions)
-            {
-                if (mission.IsActive)
-                {
-                    ActiveMissions.Add(mission);
-
-                    if (mission.objectives == null)
-                        return;
-
-                    foreach (Objective objective in mission.objectives)
-                    {
-                        if (objective.IsActive)
-                        {
-                            ActiveObjectives.Add(objective);
-                        }
-                    }
-                }
-            }
-        }
-
+        SetObjectives();
         SetParentMissions();
 
     }
@@ -71,11 +48,6 @@ public class ObjectiveManager : MonoBehaviour
         return true;
     }
 
-    private void Update()
-    {
-        CheckObjective();
-    }
-
     public void CheckObjective()
     {
         if (ActiveObjectives == null)
@@ -89,6 +61,33 @@ public class ObjectiveManager : MonoBehaviour
             }
         }
         
+    }
+
+    public void SetObjectives()
+    {
+        if (Missions != null)
+        {
+            ActiveMissions = new List<Mission>();
+            foreach (Mission mission in Missions)
+            {
+                if (mission.IsActive)
+                {
+                    ActiveMissions.Add(mission);
+
+                    if (mission.objectives == null)
+                        return;
+
+                    foreach (Objective objective in mission.objectives)
+                    {
+                        if (objective.IsActive)
+                        {
+                            ActiveObjectives.Add(objective);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     public void SetParentMissions()
@@ -106,6 +105,12 @@ public class ObjectiveManager : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        CheckObjective();
+    }
+
+
 }
 
 [System.Serializable]
@@ -114,5 +119,4 @@ public struct Mission
     public string Title;
     public Objective[] objectives;
     public bool IsActive;
-
 }

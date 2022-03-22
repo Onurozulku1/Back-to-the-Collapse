@@ -36,26 +36,19 @@ public class Interactable : MonoBehaviour
 
     private void StoreInteractable()
     {
-        if (Vector3.Distance(Player.position, transform.position) < InteractRadius)
+        if (gameManager.InteractedObject == this)
         {
-            if (gameManager.InteractedObject == this)
-                return;
-
-            if (gameManager.InteractedObject == null)
-            {
-                gameManager.InteractedObject = this;
-            }
-        }
-        else
-        {
-            if (gameManager.InteractedObject == null)
-                return;
-
-            if (gameManager.InteractedObject == this)
-            {
+            if (Vector3.Distance(Player.position, transform.position) > InteractRadius)
                 gameManager.InteractedObject = null;
-            }
         }
+        else if (gameManager.InteractedObject == null)
+        {
+            if (Vector3.Distance(Player.position, transform.position) < InteractRadius)
+                gameManager.InteractedObject = this;
+        }
+
+            
+
     }
 
     private void OnDrawGizmosSelected()
@@ -64,6 +57,10 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawSphere(transform.position, InteractRadius);
     }
 
+    private void OnDisable()
+    {
+        gameManager.InteractedObject = null;
 
-   
+    }
+
 }

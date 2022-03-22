@@ -44,4 +44,13 @@ public class PlayerInput : MonoBehaviour
     {
         DialogueManager.instance.DisplayNextSentence();
     }
+
+
+    public Transform CameraParent;
+    void OnRotateCamera(InputValue mouseDeltaInput)
+    {
+        float rotateValue = mouseDeltaInput.Get<Vector2>().x;
+        CameraParent.Rotate(Vector3.up, rotateValue * Time.deltaTime * 10);
+        
+    }
 }
