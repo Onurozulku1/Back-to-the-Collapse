@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class NotePick : Interactable
 {
     public Note Note;
@@ -10,7 +6,7 @@ public class NotePick : Interactable
     {
         base.Interact();
         PickNote();
-
+        UiManager.instance.DisplayNotificationText("New Note added to your journal");
     }
 
     public void PickNote()

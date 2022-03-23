@@ -9,6 +9,8 @@ public class ItemPick : Interactable
     {
         PickItem();
         base.Interact();
+        UiManager.instance.DisplayNotificationText(item.Name);
+
     }
 
     public void PickItem()

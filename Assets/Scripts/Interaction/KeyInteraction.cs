@@ -9,7 +9,7 @@ public class KeyInteraction : Interactable
     public override void Interact()
     {
         base.Interact();
-
+        UiManager.instance.DisplayNotificationText("You used: " + KeyItem.Name);
         
     }
 

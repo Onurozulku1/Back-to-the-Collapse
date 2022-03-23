@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class DialogueManager : MonoBehaviour
@@ -12,7 +11,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] TMP_Text SentenceText;
 
     private Queue<string> sentences;
-    private bool DisplayingDialogue = false;
 
     public static DialogueManager instance;
 
@@ -34,7 +32,6 @@ public class DialogueManager : MonoBehaviour
     private Dialogue _dialogue;
     public void StartDialogue(Dialogue dialogue)
     {
-        DisplayingDialogue = true;
         _dialogue = dialogue;
         sentences.Clear();
 
@@ -42,13 +39,13 @@ public class DialogueManager : MonoBehaviour
         {
             sentences.Enqueue(sentence);
         }
-
+        DialoguePanel.SetActive(true);
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
-        if (!DisplayingDialogue)
+        if (!DialoguePanel.activeSelf)
             return;
 
         if (sentences.Count == 0)
@@ -60,6 +57,14 @@ public class DialogueManager : MonoBehaviour
         string sentence = sentences.Dequeue();
 
         SentenceText.text = sentence;
+
+        if (_dialogue.Name == null)
+        {
+            NameText.text = " ";
+            return;
+
+        }
+
         NameText.text = _dialogue.Name;
         
     }
@@ -69,6 +74,9 @@ public class DialogueManager : MonoBehaviour
         DialoguePanel.SetActive(false);
         SentenceText.text = "";
         NameText.text = "";
+
+        if (!GameManager.instance.tutorialDisplayed)
+            GameManager.instance.tutorialDisplayed = true;
 
     }
 }

@@ -5,10 +5,14 @@ using TMPro;
 
 public class UiManager : MonoBehaviour
 {
+
+    public TMP_Text NotificationText;
+
     [Header("Note Elements")]
     public GameObject NotePanel;
     public TMP_Text NoteTitle;
     public TMP_Text NoteContext;
+
 
     public static UiManager instance;
 
@@ -53,9 +57,26 @@ public class UiManager : MonoBehaviour
 
     public void CloseTabs()
     {
+        if (!GameManager.instance.tutorialDisplayed)
+            return;
+
         foreach (GameObject element in UiElements)
         {
             element.SetActive(false);
         }
+    }
+
+    public void DisplayNotificationText(string context)
+    {
+        StopCoroutine(HideNotificationText());
+        NotificationText.gameObject.SetActive(true);
+        NotificationText.text = context;
+        StartCoroutine(HideNotificationText());
+    }
+    private IEnumerator HideNotificationText()
+    {
+        yield return new WaitForSeconds(3);
+        NotificationText.gameObject.SetActive(false);
+
     }
 }
