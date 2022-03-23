@@ -49,4 +49,20 @@ public class PlayerController : MonoBehaviour
 
     }
     #endregion
+
+    private void OnEnable()
+    {
+        GameManager.PauseGameHandler += (bool isPaused) => enabled = !isPaused;
+        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<PlayerMovement>().enabled = !isPaused;
+        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<Rigidbody>().useGravity = !isPaused;
+        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+    private void OnDisable()
+    {
+        GameManager.PauseGameHandler -= (bool isPaused) => enabled = !isPaused;
+        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<PlayerMovement>().enabled = !isPaused;
+        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<Rigidbody>().useGravity = !isPaused;
+        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+    }
 }

@@ -146,4 +146,20 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawRay(transform.position, 0.4f * Properties.SightRange * rightRayDirection2);
     }
 
+    
+
+    private void OnEnable()
+    {
+        GameManager.PauseGameHandler += (bool isPaused) => enabled = !isPaused;
+        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<EnemyStateManager>().enabled = !isPaused;
+        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<NavMeshAgent>().enabled = !isPaused;
+    }
+    private void OnDisable()
+    {
+        GameManager.PauseGameHandler -= (bool isPaused) => enabled = !isPaused;
+        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<EnemyStateManager>().enabled = !isPaused;
+        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<NavMeshAgent>().enabled = !isPaused;
+
+    }
+
 }

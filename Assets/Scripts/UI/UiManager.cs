@@ -57,9 +57,6 @@ public class UiManager : MonoBehaviour
 
     public void CloseTabs()
     {
-        if (!GameManager.instance.tutorialDisplayed)
-            return;
-
         foreach (GameObject element in UiElements)
         {
             element.SetActive(false);
@@ -78,5 +75,19 @@ public class UiManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         NotificationText.gameObject.SetActive(false);
 
+    }
+
+
+    private bool PauseGame = false;
+    public void BackAndPauseControl()
+    {
+        if (DisplayingTabs())
+        {
+            CloseTabs();
+            return;
+        }
+
+        PauseGame = !PauseGame;
+        GameManager.PauseGameHandler?.Invoke(PauseGame);
     }
 }

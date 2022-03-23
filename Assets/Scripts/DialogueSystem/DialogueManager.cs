@@ -75,8 +75,5 @@ public class DialogueManager : MonoBehaviour
         SentenceText.text = "";
         NameText.text = "";
 
-        if (!GameManager.instance.tutorialDisplayed)
-            GameManager.instance.tutorialDisplayed = true;
-
     }
 }

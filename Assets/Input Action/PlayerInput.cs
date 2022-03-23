@@ -21,28 +21,28 @@ public class PlayerInput : MonoBehaviour
 
     void OnCrouch(InputValue crouchInput)
     {
-        GetComponent<PlayerMovement>().isCrouching = !GetComponent<PlayerMovement>().isCrouching;
-        if (GetComponent<PlayerMovement>().isCrouching)
-            Debug.Log("crouching");
+        GetComponent<PlayerMovement>().Crouch();
 
     }
 
     //UI Input
+
     void OnBack(InputValue backInput)
     {
-        if (!UiManager.instance.DisplayingTabs())
-        {
-            Debug.Log("Displaying pause menu");
-        }
-        else
-        {
-            UiManager.instance.CloseTabs();
-        }
+        UiManager.instance.BackAndPauseControl();
     }
 
     void OnNextDialogue(InputValue nextInput)
     {
-        DialogueManager.instance.DisplayNextSentence();
+        if (TutorialManager.instance.tutorialPanel.activeSelf)
+        {
+            TutorialManager.instance.NextTutorial();
+        }
+        else
+        {
+            DialogueManager.instance.DisplayNextSentence();
+
+        }
     }
 
 

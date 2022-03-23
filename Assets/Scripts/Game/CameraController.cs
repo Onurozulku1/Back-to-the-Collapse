@@ -15,4 +15,15 @@ public class CameraController : MonoBehaviour
     {
         transform.position = Player.position;
     }
+
+    private void OnEnable()
+    {
+        GameManager.PauseGameHandler += (bool isPaused) => enabled = !isPaused;
+    }
+    private void OnDisable()
+    {
+        GameManager.PauseGameHandler -= (bool isPaused) => enabled = !isPaused;
+
+    }
+    
 }

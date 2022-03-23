@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
             }
         } 
     }
-    public bool isCrouching = false;
 
     private Rigidbody rb;
     private void Awake()
@@ -57,6 +56,16 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rb.velocity, transform.up), 0.2f);
 
+        }
+    }
+
+    public bool isCrouching;
+    public void Crouch()
+    {
+        isCrouching = !isCrouching;
+        if (isCrouching)
+        {
+            Debug.Log("Crouching");
         }
     }
 }
