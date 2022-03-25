@@ -12,11 +12,7 @@ public class Interactable : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
-    private void OnEnable()
-    {
-        gameManager = GameManager.instance;
-
-    }
+    
 
     private void Start()
     {
@@ -57,10 +53,15 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawSphere(transform.position, InteractRadius);
     }
 
+    private void OnEnable()
+    {
+        gameManager = GameManager.instance;
+    }
+
+
     private void OnDisable()
     {
         gameManager.InteractedObject = null;
-
     }
 
 }

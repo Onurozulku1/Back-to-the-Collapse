@@ -2,7 +2,7 @@
     "name": "PlayerActions",
     "maps": [
         {
-            "name": "Player",
+            "name": "PlayerMap",
             "id": "2bfa4b91-b8c5-453d-88ce-6fc2a29207a7",
             "actions": [
                 {
@@ -162,17 +162,6 @@
                 },
                 {
                     "name": "",
-                    "id": "910876f6-30ff-42bb-9040-45d0710f249c",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "NextDialogue",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2cfc6010-c553-4749-bf99-7599e78c0ee7",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -190,6 +179,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PauseMap",
+            "id": "c62c530c-ca67-471b-bbc2-339159a49165",
+            "actions": [
+                {
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "cce0b364-45bc-479f-9fca-eea92f98d664",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d297e0f9-58ac-4341-b0c6-07a18ef18e99",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

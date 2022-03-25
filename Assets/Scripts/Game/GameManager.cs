@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class GameManager : MonoBehaviour
 
     //menzilinde olduðumuz interact objesini anlýk olarak tutuyor ve input gelince tuttuðu objenin interact metodunu çaðýrýyor.
     public Interactable InteractedObject;
-
 
     #region Singleton
     public static GameManager instance;
@@ -19,5 +19,24 @@ public class GameManager : MonoBehaviour
             instance = this;
     }
     #endregion
+
+    private bool PauseGame = false;
+    public void BackAndPauseControl()
+    {
+        if (UiManager.instance.DisplayingWindows())
+        {
+            UiManager.instance.CloseWindows();
+            PauseGameHandler?.Invoke(false);
+            return;
+        }
+
+        PauseGame = !PauseGame;
+        PauseGameHandler?.Invoke(PauseGame);
+
+        UiManager.instance.pauseMenu.SetActive(PauseGame);
+        UiManager.instance.staticTabs.SetActive(!PauseGame);
+        
+    }
+
 
 }

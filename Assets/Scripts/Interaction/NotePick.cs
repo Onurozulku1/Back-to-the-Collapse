@@ -13,6 +13,8 @@ public class NotePick : Interactable
     {
         NoteManager.instance.AddNote(Note);
         Destroy(gameObject);
+        GameManager.PauseGameHandler?.Invoke(true);
+
     }
 
 

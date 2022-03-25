@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour
 
     void OnBack(InputValue backInput)
     {
-        UiManager.instance.BackAndPauseControl();
+        GameManager.instance.BackAndPauseControl();
     }
 
     void OnNextDialogue(InputValue nextInput)

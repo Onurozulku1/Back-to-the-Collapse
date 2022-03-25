@@ -8,13 +8,16 @@ public class UiManager : MonoBehaviour
 
     public TMP_Text NotificationText;
 
+    public GameObject staticTabs;
+
+    [Header("PauseMenu Elements")]
+    public GameObject pauseMenu;
+    
     [Header("Note Elements")]
     public GameObject NotePanel;
     public TMP_Text NoteTitle;
     public TMP_Text NoteContext;
 
-
-    public static UiManager instance;
 
     private void OnValidate()
     {
@@ -28,6 +31,8 @@ public class UiManager : MonoBehaviour
         }
     }
 
+
+    public static UiManager instance;
     private void Awake()
     {
         if (instance == null)
@@ -42,9 +47,10 @@ public class UiManager : MonoBehaviour
 
     }
 
+
     public Transform UiPanel;
     private GameObject[] UiElements;
-    public bool DisplayingTabs()
+    public bool DisplayingWindows()
     {
         foreach (GameObject element in UiElements)
         {
@@ -55,13 +61,15 @@ public class UiManager : MonoBehaviour
         return false;
     }
 
-    public void CloseTabs()
+
+    public void CloseWindows()
     {
         foreach (GameObject element in UiElements)
         {
             element.SetActive(false);
         }
     }
+
 
     public void DisplayNotificationText(string context)
     {
@@ -78,16 +86,4 @@ public class UiManager : MonoBehaviour
     }
 
 
-    private bool PauseGame = false;
-    public void BackAndPauseControl()
-    {
-        if (DisplayingTabs())
-        {
-            CloseTabs();
-            return;
-        }
-
-        PauseGame = !PauseGame;
-        GameManager.PauseGameHandler?.Invoke(PauseGame);
-    }
 }
