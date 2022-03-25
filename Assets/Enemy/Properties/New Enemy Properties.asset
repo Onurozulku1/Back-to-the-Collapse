@@ -15,8 +15,8 @@ MonoBehaviour:
   ChasingSpeed: 3
   SearchingSpeed: 1.2
   PatrollingSpeed: 1
-  HearRange: 4
-  SightRange: 10
+  HearRange: 5
+  SightRange: 13
   VisionAngle: 120
   NoticeAngle: 180
   NoticeTime: 2

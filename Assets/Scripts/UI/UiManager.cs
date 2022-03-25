@@ -10,6 +10,10 @@ public class UiManager : MonoBehaviour
 
     public GameObject staticTabs;
 
+    [Header("Hud Elements")]
+    public HudTab[] tabs;
+    public TMP_Text[] TabTexts;
+    
     [Header("PauseMenu Elements")]
     public GameObject pauseMenu;
     
@@ -86,4 +90,35 @@ public class UiManager : MonoBehaviour
     }
 
 
+    private int[] TabIndex = new int[] { 2, 0, 1 };
+    public void ChangeHudTab(int point)
+    {
+        for (int i = 0; i < TabIndex.Length; i++)
+        {
+            tabs[i].HudPanel.SetActive(false);
+            TabIndex[i] -= point;
+            if (TabIndex[i] < 0)
+            {
+                TabIndex[i] = 2;
+            }
+            else if (TabIndex[i] > 2)
+            {
+                TabIndex[i] = 0;
+            }
+
+            TabTexts[i].text = tabs[TabIndex[i]].Title;
+
+        }
+            tabs[TabIndex[1]].HudPanel.SetActive(true);
+
+    }
+
+
+}
+
+[System.Serializable]
+public struct HudTab
+{
+    public string Title;
+    public GameObject HudPanel;
 }
