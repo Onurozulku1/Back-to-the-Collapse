@@ -9,6 +9,8 @@ public class ObjectiveTextManager : MonoBehaviour
     public GameObject[] MissionObjects;
 
     [Range(0, 100)] public float spacing = 10;
+    [Range(0, 100)] public float PaddingX = 10;
+    [Range(0, 100)] public float PaddingY = 10;
 
     private Vector3 MissionObjPos;
 
@@ -32,6 +34,7 @@ public class ObjectiveTextManager : MonoBehaviour
     {
         for (int k = 0; k < objMgr.ActiveMissions.Count; k++)
         {
+            MissionObjects[k].SetActive(true);
             TMP_Text[] textObjects = MissionObjects[k].GetComponentsInChildren<TMP_Text>();
 
             textObjects[0].text = objMgr.ActiveMissions[k].Title;
@@ -55,7 +58,7 @@ public class ObjectiveTextManager : MonoBehaviour
     }
     public void AdjustMissionPos()
     {
-        MissionObjPos = Vector3.zero;
+        MissionObjPos = new Vector3(PaddingX, -PaddingY, 0); 
         for (int k = 0; k < objMgr.ActiveMissions.Count; k++)
         {
             RectTransform rectTransform = MissionObjects[k].GetComponent<RectTransform>();

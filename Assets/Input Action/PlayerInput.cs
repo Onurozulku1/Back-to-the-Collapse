@@ -25,6 +25,11 @@ public class PlayerInput : MonoBehaviour
 
     }
 
+    void OnToggleInventory(InputValue inventoryInput)
+    {
+        UiManager.instance.inventoryPanel.SetActive(!UiManager.instance.inventoryPanel.activeSelf);
+    }
+
     //UI Input
 
     void OnBack(InputValue backInput)

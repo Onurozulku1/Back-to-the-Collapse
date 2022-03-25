@@ -11,6 +11,7 @@ public class UiManager : MonoBehaviour
     public GameObject staticTabs;
 
     [Header("Hud Elements")]
+    public GameObject inventoryPanel;
     public HudTab[] tabs;
     public TMP_Text[] TabTexts;
     
