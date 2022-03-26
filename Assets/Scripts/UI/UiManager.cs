@@ -18,11 +18,6 @@ public class UiManager : MonoBehaviour
     [Header("PauseMenu Elements")]
     public GameObject pauseMenu;
     
-    [Header("Note Elements")]
-    public GameObject NotePanel;
-    public TMP_Text NoteTitle;
-    public TMP_Text NoteContext;
-
 
     private void OnValidate()
     {
@@ -44,14 +39,7 @@ public class UiManager : MonoBehaviour
             instance = this;
     }
 
-    public void DisplayNote(Note note)
-    {
-        NotePanel.SetActive(true);
-        NoteTitle.text = note.Title;
-        NoteContext.text = note.Context + "\n \n  -" + note.Author;
-
-    }
-
+    
 
     public Transform UiPanel;
     private GameObject[] UiElements;
