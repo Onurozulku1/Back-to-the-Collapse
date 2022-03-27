@@ -37,6 +37,15 @@ public class UiManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
+
+
+        //CREATE TAB QUEUE
+        TabQueue = new Queue<int>();
+        for (int i = 0; i < tabCount; i++)
+        {
+            TabQueue.Enqueue(i);
+        }
+
     }
 
     
@@ -78,27 +87,45 @@ public class UiManager : MonoBehaviour
 
     }
 
-
-    private int[] TabIndex = new int[] { 2, 0, 1 };
+    private Queue<int> TabQueue;
+    private int tabCount = 3;
+    private int[] tabNumbers = new int[] { 2, 0, 1 };
+    private int lastTabIndex;
     public void ChangeHudTab(int point)
     {
-        for (int i = 0; i < TabIndex.Length; i++)
+
+        if (point > 0)
+        {
+            TabQueue.Enqueue(TabQueue.Dequeue());
+        }
+        else
+        {
+            for (int j = 0; j < TabQueue.Count - 1; j++)
+            {
+                TabQueue.Enqueue(TabQueue.Dequeue());
+            }
+        }
+        lastTabIndex = TabQueue.Peek();
+
+        for (int i = 0; i < TabQueue.Count; i++)
         {
             tabs[i].HudPanel.SetActive(false);
-            TabIndex[i] -= point;
-            if (TabIndex[i] < 0)
-            {
-                TabIndex[i] = 2;
-            }
-            else if (TabIndex[i] > 2)
-            {
-                TabIndex[i] = 0;
-            }
-
-            TabTexts[i].text = tabs[TabIndex[i]].Title;
+            TabQueue.Enqueue(TabQueue.Dequeue());
+            TabTexts[i].text = tabs[TabQueue.Peek()].Title;
 
         }
-            tabs[TabIndex[1]].HudPanel.SetActive(true);
+       
+        tabs[lastTabIndex].HudPanel.SetActive(true);
+
+
+    }
+
+    public void OpenHudTab(int tabIndex)
+    {
+        if (tabIndex < 0 || tabIndex > 2)
+            return;
+
+
 
     }
 
