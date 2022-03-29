@@ -15,8 +15,11 @@ public class ObjectiveTextManager : MonoBehaviour
     private Vector3 MissionObjPos;
 
     ObjectiveManager objMgr;
+    public static ObjectiveTextManager instance;
     private void Awake()
     {
+        instance = this;
+
         objMgr = ObjectiveManager.instance;
         MissionObjects = new GameObject[5];
 
@@ -26,7 +29,6 @@ public class ObjectiveTextManager : MonoBehaviour
             MissionObjects[i].transform.SetParent(transform);
             MissionObjects[i].name = "Mission" + i + " Object";
         }
-        SetTexts();
     }
 
 
@@ -52,12 +54,10 @@ public class ObjectiveTextManager : MonoBehaviour
         }
         
     }
-    private void Update()
-    {
-        AdjustMissionPos();
-    }
+
     public void AdjustMissionPos()
     {
+        SetTexts();
         MissionObjPos = new Vector3(PaddingX, -PaddingY, 0); 
         for (int k = 0; k < objMgr.ActiveMissions.Count; k++)
         {

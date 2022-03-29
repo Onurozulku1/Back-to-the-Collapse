@@ -41,7 +41,7 @@ public class UiManager : MonoBehaviour
 
         //CREATE TAB QUEUE
         TabQueue = new Queue<int>();
-        for (int i = 0; i < tabCount; i++)
+        for (int i = 0; i < hudTabCount; i++)
         {
             TabQueue.Enqueue(i);
         }
@@ -88,9 +88,7 @@ public class UiManager : MonoBehaviour
     }
 
     private Queue<int> TabQueue;
-    private int tabCount = 3;
-    private int[] tabNumbers = new int[] { 2, 0, 1 };
-    private int lastTabIndex;
+    public int hudTabCount = 3;
     public void ChangeHudTab(int point)
     {
 
@@ -105,7 +103,6 @@ public class UiManager : MonoBehaviour
                 TabQueue.Enqueue(TabQueue.Dequeue());
             }
         }
-        lastTabIndex = TabQueue.Peek();
 
         for (int i = 0; i < TabQueue.Count; i++)
         {
@@ -115,19 +112,12 @@ public class UiManager : MonoBehaviour
 
         }
        
-        tabs[lastTabIndex].HudPanel.SetActive(true);
+        tabs[TabQueue.Peek()].HudPanel.SetActive(true);
 
 
     }
 
-    public void OpenHudTab(int tabIndex)
-    {
-        if (tabIndex < 0 || tabIndex > 2)
-            return;
-
-
-
-    }
+   
 
 
 }

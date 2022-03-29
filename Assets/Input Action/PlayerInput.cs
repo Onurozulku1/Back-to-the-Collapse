@@ -25,10 +25,13 @@ public class PlayerInput : MonoBehaviour
 
     }
 
-    void OnToggleInventory(InputValue inventoryInput)
+    void OnThrowItem(InputValue throwInput)
     {
-        UiManager.instance.inventoryPanel.SetActive(!UiManager.instance.inventoryPanel.activeSelf);
+        Ray throwRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        GetComponent<ThrowItem>().ItemThrowing(throwRay);
     }
+
+    
 
     //UI Input
 
@@ -57,5 +60,10 @@ public class PlayerInput : MonoBehaviour
         float rotateValue = mouseDeltaInput.Get<Vector2>().x;
         CameraParent.Rotate(Vector3.up, rotateValue * Time.deltaTime * 10);
         
+    }
+
+    void OnToggleInventory(InputValue inventoryInput)
+    {
+        UiManager.instance.inventoryPanel.SetActive(!UiManager.instance.inventoryPanel.activeSelf);
     }
 }

@@ -59,6 +59,7 @@ public class TutorialManager : MonoBehaviour
         {
             tutorialPanel.SetActive(false);
             TutorialDisplaying = false;
+            ObjectiveTextManager.instance.AdjustMissionPos();
         }
 
 
