@@ -22,6 +22,10 @@ public class NoteManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
+        if (JournalsParent != null)
+            journalTexts = JournalsParent.GetComponentsInChildren<TMP_Text>();
+
+
         if (journalTexts != null)
         {
             foreach (var item in journalTexts)
@@ -32,11 +36,7 @@ public class NoteManager : MonoBehaviour
     }
 
     private TMP_Text[] journalTexts;
-    private void OnValidate()
-    {
-        if (JournalsParent != null)
-            journalTexts = JournalsParent.GetComponentsInChildren<TMP_Text>();
-    }
+    
 
     public void AddNote(Note note)
     {

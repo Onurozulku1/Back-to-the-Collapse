@@ -8,17 +8,15 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject slots;
     public List<Item> Items = new();
 
-    private void OnValidate()
-    {
-        itemSlots = slots.GetComponentsInChildren<ItemSlot>();
-
-    }
 
     public static InventoryManager instance;
     private void Awake()
     {
         if (instance == null)
             instance = this;
+
+        itemSlots = slots.GetComponentsInChildren<ItemSlot>();
+
     }
 
     public bool AddItem(Item _item)

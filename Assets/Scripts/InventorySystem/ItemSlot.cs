@@ -7,7 +7,7 @@ public class ItemSlot : MonoBehaviour
 {
     public Item item;
 
-    private void OnValidate()
+    private void Awake()
     {
         if (item != null)
         {

@@ -31,10 +31,9 @@ public class PlayerInput : MonoBehaviour
         GetComponent<ThrowItem>().ItemThrowing(throwRay);
     }
 
-    
+
 
     //UI Input
-
     void OnBack(InputValue backInput)
     {
         GameManager.instance.BackAndPauseControl();

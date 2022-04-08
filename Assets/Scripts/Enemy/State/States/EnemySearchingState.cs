@@ -27,7 +27,7 @@ public class EnemySearchingState : EnemyBaseState
     public override void EnterState(EnemyStateManager enemy)
     {
         RunningLastSeenPoint = true;
-        LastSeenPoint = Properties.Player.position;
+        LastSeenPoint = target.position;
 
         destTimer = destFrequence;
         searchTimer = 0;
@@ -51,7 +51,6 @@ public class EnemySearchingState : EnemyBaseState
         }
         else
         {
-
             Controller.Agent.speed = Properties.SearchingSpeed;
             Controller.Agent.stoppingDistance = 0.5f;
 
@@ -77,7 +76,6 @@ public class EnemySearchingState : EnemyBaseState
             if (Vector3.Distance(LastSeenPos.Peek(), enemy.transform.position) < 1f)
             {
                 LastSeenPos.Dequeue();
-
             }
 
             Controller.Agent.SetDestination(LastSeenPos.Peek());

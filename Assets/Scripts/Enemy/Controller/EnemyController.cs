@@ -18,17 +18,14 @@ public class EnemyController : MonoBehaviour
     public float AttackRange = 5;
     public float AttackRate = 1;
 
-    private void OnValidate()
-    {
-        if (GetComponent<NavMeshAgent>() != null)
-            Agent = GetComponent<NavMeshAgent>();
-
-    }
 
     private void Awake()
     {
         Properties.Player = GameObject.FindGameObjectWithTag("Player").transform;
         enemyStateManager = GetComponent<EnemyStateManager>();
+
+        if (GetComponent<NavMeshAgent>() != null)
+            Agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()

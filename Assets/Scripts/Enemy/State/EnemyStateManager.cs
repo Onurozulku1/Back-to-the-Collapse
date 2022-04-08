@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyStateManager : MonoBehaviour
 {
 
-    EnemyBaseState currentState;
+    public EnemyBaseState currentState;
 
     public EnemyChasingState ChasingState = new();
     public EnemyAttackState AttackState = new();
@@ -18,18 +18,15 @@ public class EnemyStateManager : MonoBehaviour
 
     private void Awake()
     {
-        ChasingState.AwakeState(this);
-        SearchingState.AwakeState(this);
-        IdleState.AwakeState(this);
-        AttackState.AwakeState(this);
-    }
-
-    private void OnValidate()
-    {
         if (GetComponent<EnemyController>() != null)
         {
             Controller = GetComponent<EnemyController>();
         }
+
+        ChasingState.AwakeState(this);
+        SearchingState.AwakeState(this);
+        IdleState.AwakeState(this);
+        AttackState.AwakeState(this);
     }
 
     void Start()

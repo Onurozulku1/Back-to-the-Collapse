@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,11 +24,13 @@ public class GameManager : MonoBehaviour
     private bool PauseGame = false;
     public void BackAndPauseControl()
     {
+
         if (UiManager.instance.DisplayingWindows())
         {
             UiManager.instance.CloseWindows();
             PauseGameHandler?.Invoke(false);
             return;
+
         }
 
         PauseGame = !PauseGame;
@@ -35,8 +38,11 @@ public class GameManager : MonoBehaviour
 
         UiManager.instance.pauseMenu.SetActive(PauseGame);
         UiManager.instance.staticTabs.SetActive(!PauseGame);
-        
+
     }
+
+  
+  
 
 
 }

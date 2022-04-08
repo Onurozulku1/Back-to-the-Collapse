@@ -29,32 +29,32 @@ public class LocationObjective : Objective
       
     }
 
-    public void SetLocation()
-    {
-        if (Selection.transforms[0] == null)
-        {
-            Debug.Log("Select transform on scene");
-            return;
-        }
+    //public void SetLocation()
+    //{
+    //    if (Selection.transforms[0] == null)
+    //    {
+    //        Debug.Log("Select transform on scene");
+    //        return;
+    //    }
 
-        TargetLocation = Selection.transforms[0].position;
-    }
+    //    TargetLocation = Selection.transforms[0].position;
+    //}
 
 
 }
 
-[CustomEditor(typeof(LocationObjective))]
-public class TestScriptableEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        var script = (LocationObjective)target;
+//[CustomEditor(typeof(LocationObjective))]
+//public class TestScriptableEditor : Editor
+//{
+//    public override void OnInspectorGUI()
+//    {
+//        base.OnInspectorGUI();
+//        var script = (LocationObjective)target;
 
-        if (GUILayout.Button("Set Location", GUILayout.Height(40)))
-        {
-            script.SetLocation();
-        }
+//        if (GUILayout.Button("Set Location", GUILayout.Height(40)))
+//        {
+//            script.SetLocation();
+//        }
 
-    }
-}
+//    }
+//}

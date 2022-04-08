@@ -5,24 +5,19 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     public float InteractRadius = 2;
-    private Transform Player;
+    protected Transform Player;
 
     private GameManager gameManager;
     private void Awake()
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
-    }
-    
-
-    private void Start()
-    {
         gameManager = GameManager.instance;
 
     }
 
     public virtual void Interact()
     {
-        Debug.Log("Interacted with " + gameObject.name);
+        
     }
 
     private void Update()
@@ -32,6 +27,13 @@ public class Interactable : MonoBehaviour
 
     private void StoreInteractable()
     {
+        if (gameManager == null)
+        {
+            gameManager = GameManager.instance;
+            return;
+        }
+       
+
         if (gameManager.InteractedObject == this)
         {
             if (Vector3.Distance(Player.position, transform.position) > InteractRadius)
@@ -43,8 +45,6 @@ public class Interactable : MonoBehaviour
                 gameManager.InteractedObject = this;
         }
 
-            
-
     }
 
     private void OnDrawGizmosSelected()
@@ -53,15 +53,11 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawSphere(transform.position, InteractRadius);
     }
 
-    private void OnEnable()
-    {
-        gameManager = GameManager.instance;
-    }
-
-
     private void OnDisable()
     {
-        gameManager.InteractedObject = null;
+        if (gameManager!=null)
+            gameManager.InteractedObject = null;
+
     }
 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UiManager : MonoBehaviour
 {
@@ -19,8 +20,12 @@ public class UiManager : MonoBehaviour
     public GameObject pauseMenu;
     
 
-    private void OnValidate()
+    public static UiManager instance;
+    private void Awake()
     {
+        if (instance == null)
+            instance = this;
+
         if (UiPanel != null)
         {
             UiElements = new GameObject[UiPanel.childCount];
@@ -29,14 +34,6 @@ public class UiManager : MonoBehaviour
                 UiElements[i] = UiPanel.GetChild(i).gameObject;
             }
         }
-    }
-
-
-    public static UiManager instance;
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
 
 
         //CREATE TAB QUEUE
@@ -73,7 +70,7 @@ public class UiManager : MonoBehaviour
     }
 
 
-    public void DisplayNotificationText(string context)
+    public void ShowNotification(string context)
     {
         StopCoroutine(HideNotificationText());
         NotificationText.gameObject.SetActive(true);
@@ -117,8 +114,11 @@ public class UiManager : MonoBehaviour
 
     }
 
-   
 
+    public void resetGame()
+    {
+        SceneManager.LoadScene("Demo");
+    }
 
 }
 

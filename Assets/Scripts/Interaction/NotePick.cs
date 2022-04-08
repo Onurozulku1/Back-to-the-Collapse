@@ -6,7 +6,7 @@ public class NotePick : Interactable
     {
         base.Interact();
         PickNote();
-        UiManager.instance.DisplayNotificationText("New Note added to your journal");
+        UiManager.instance.ShowNotification("New Note added to your journal");
     }
 
     public void PickNote()

@@ -10,7 +10,7 @@ public class ThrowItem : MonoBehaviour
     public float gravity = -18f;
     private Vector3 target;
 
-   
+     
 
     public void ItemThrowing(Ray ray)
     {
@@ -37,12 +37,13 @@ public class ThrowItem : MonoBehaviour
     {
         Physics.gravity = Vector3.up * gravity;
         GameObject trwObject = GetComponent<PlayerController>().ThrowableObject;
-        trwObject.transform.position = transform.position;
+        trwObject.transform.position = transform.position + transform.forward + transform.up;
         trwObject.SetActive(true);
         Rigidbody itemRb;
         itemRb = trwObject.GetComponent<Rigidbody>();
         itemRb.velocity = CalculateVelocity();
-
+        trwObject.GetComponent<ThrowableNotification>().isLaunched = true;
+        GetComponent<PlayerController>().ThrowableObject = null;
     }
 
     private Vector3 CalculateVelocity()
@@ -51,7 +52,7 @@ public class ThrowItem : MonoBehaviour
         Vector3 displacementXZ = target - transform.position;
         displacementXZ.y = 0;
 
-        height = /*0.5f +*/ (displacementXZ.magnitude * 0.2f);
+        height = /*0.5f*/ + (displacementXZ.magnitude * 0.2f);
 
         Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * height);
         Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * height / gravity) + Mathf.Sqrt(2 * (displacementY - height) / gravity));

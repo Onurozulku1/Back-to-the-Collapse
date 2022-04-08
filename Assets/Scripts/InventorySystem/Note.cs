@@ -10,7 +10,5 @@ public class Note : ScriptableObject
     public string Context;
     public string Author;
     public Item[] ItemsWithNote;
-    private void OnValidate()
-    {
-    }
+    
 }

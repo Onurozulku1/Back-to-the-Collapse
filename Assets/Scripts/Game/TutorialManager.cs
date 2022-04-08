@@ -18,11 +18,8 @@ public class TutorialManager : MonoBehaviour
     {
         instance = this;
         tutorialPanel.SetActive(false);
-    }
-
-    private void OnValidate()
-    {
         tutorialText = tutorialPanel.GetComponentInChildren<TMP_Text>();
+
     }
 
     private void Start()
@@ -37,7 +34,6 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator DisplayTutorial()
     {
         yield return new WaitForSeconds(3);
-        
         tutorialText.text = TutorialTexts[0];
         tutorialPanel.SetActive(true);
         TutorialDisplaying = true;
