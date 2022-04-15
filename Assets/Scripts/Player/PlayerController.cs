@@ -35,15 +35,14 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.PauseGameHandler += (bool isPaused) => enabled = !isPaused;
         GameManager.PauseGameHandler += (bool isPaused) => GetComponent<PlayerMovement>().enabled = !isPaused;
-        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<Rigidbody>().useGravity = !isPaused;
-        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GameManager.PauseGameHandler += (bool isPaused) => GetComponent<CharacterController>().enabled = !isPaused;
     }
     private void OnDisable()
     {
         GameManager.PauseGameHandler -= (bool isPaused) => enabled = !isPaused;
         GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<PlayerMovement>().enabled = !isPaused;
-        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<Rigidbody>().useGravity = !isPaused;
-        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GameManager.PauseGameHandler -= (bool isPaused) => GetComponent<CharacterController>().enabled = !isPaused;
+
 
     }
 }

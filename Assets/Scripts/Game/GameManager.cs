@@ -39,10 +39,15 @@ public class GameManager : MonoBehaviour
         UiManager.instance.pauseMenu.SetActive(PauseGame);
         UiManager.instance.staticTabs.SetActive(!PauseGame);
 
+        if (PauseGame)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
+
     }
 
-  
-  
+
+
 
 
 }
