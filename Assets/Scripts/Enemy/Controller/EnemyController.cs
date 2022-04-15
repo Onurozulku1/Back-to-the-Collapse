@@ -81,7 +81,7 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        if (!Properties.Player.GetComponent<PlayerMovement>().isCrouching && Mathf.RoundToInt(Properties.Player.GetComponent<Rigidbody>().velocity.magnitude) == 0)
+        if (!Properties.Player.GetComponent<PlayerMovement>().isCrouching && Mathf.RoundToInt(Properties.Player.GetComponent<CharacterController>().velocity.magnitude) == 0)
         {
             return;
 

@@ -31,11 +31,12 @@ public class PlayerMovement : MonoBehaviour
         } 
     }
 
-    private Rigidbody rb;
+    private CharacterController cc;
+
     private void Awake()
     {
+        cc = GetComponent<CharacterController>();
         input = GetComponent<PlayerInput>();
-        rb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
@@ -50,11 +51,10 @@ public class PlayerMovement : MonoBehaviour
         MovementVector = ((Camera.main.transform.parent.right * input.moveVector.x) + (Camera.main.transform.parent.forward * input.moveVector.y)).normalized * _speed;
         MovementVector.y += gravity * Time.deltaTime * 10;
 
-        rb.velocity = MovementVector;
-
+        cc.Move(MovementVector* Time.deltaTime);
         if (input.moveVector != Vector2.zero)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rb.velocity, transform.up), 0.2f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(cc.velocity, transform.up), 0.2f);
 
         }
     }
