@@ -38,6 +38,19 @@ public class EnemyController : MonoBehaviour
 
 
     private float noticeTimer = 0;
+    private bool Noticing()
+    {
+        if (noticeTimer < Properties.NoticeTime)
+        {
+            noticeTimer += Time.deltaTime;
+            return false;
+        }
+        else
+        {
+            noticeTimer = 0;
+            return true;
+        }
+    }
     public bool EnemyFOV()
     {
         if (Physics.Raycast(transform.position, (Properties.Player.position - transform.position).normalized, out RaycastHit hit, Properties.SightRange))
@@ -48,18 +61,13 @@ public class EnemyController : MonoBehaviour
                 {
                     return true;
                 }
+                else if (PlayerAngle < (Properties.VisionAngle * 0.4f) && PlayerDistance > Properties.SightRange && PlayerDistance < Properties.SightRange * 1.2f)
+                {
+                    return Noticing();
+                }
                 else if (PlayerAngle > (Properties.VisionAngle * 0.5f) && PlayerAngle < (Properties.NoticeAngle * 0.5f) && PlayerDistance < Properties.SightRange * 0.4f)
                 {
-                    if (noticeTimer < Properties.NoticeTime)
-                    {
-                        noticeTimer += Time.deltaTime;
-                        return false;
-                    }
-                    else
-                    {
-                        noticeTimer = 0;
-                        return true;
-                    }
+                    return Noticing();
                 }
             }
         }
@@ -111,10 +119,10 @@ public class EnemyController : MonoBehaviour
 
         if (EnemyHeard)
         {
-            FaceToPlayer();
+            FaceToHeardPoint();
         }
     }
-    public void FaceToPlayer()
+    public void FaceToHeardPoint()
     {
         Vector3 lookRotation = (Properties.Player.position - transform.position).normalized;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookRotation, Vector3.up), 0.05f);
