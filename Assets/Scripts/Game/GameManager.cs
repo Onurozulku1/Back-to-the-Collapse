@@ -7,7 +7,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static Action<bool> PauseGameHandler;
+    public static Action<bool> PauseGameAction;
 
     //menzilinde olduðumuz interact objesini anlýk olarak tutuyor ve input gelince tuttuðu objenin interact metodunu çaðýrýyor.
     public Interactable InteractedObject;
@@ -24,17 +24,16 @@ public class GameManager : MonoBehaviour
     private bool PauseGame = false;
     public void BackAndPauseControl()
     {
-
         if (UiManager.instance.DisplayingWindows())
         {
             UiManager.instance.CloseWindows();
-            PauseGameHandler?.Invoke(false);
+            PauseGameAction?.Invoke(false);
             return;
 
         }
 
         PauseGame = !PauseGame;
-        PauseGameHandler?.Invoke(PauseGame);
+        PauseGameAction?.Invoke(PauseGame);
 
         UiManager.instance.pauseMenu.SetActive(PauseGame);
         UiManager.instance.staticTabs.SetActive(!PauseGame);
@@ -46,8 +45,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
-
+    private void OnDestroy()
+    {
+        PauseGameAction = null;
+    }
 
 }

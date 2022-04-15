@@ -18,11 +18,11 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.PauseGameHandler += (bool isPaused) => enabled = !isPaused;
+        GameManager.PauseGameAction += (bool isPaused) => enabled = !isPaused;
     }
     private void OnDisable()
     {
-        GameManager.PauseGameHandler -= (bool isPaused) => enabled = !isPaused;
+        GameManager.PauseGameAction -= (bool isPaused) => enabled = !isPaused;
 
     }
     

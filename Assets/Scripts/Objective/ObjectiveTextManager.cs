@@ -59,15 +59,16 @@ public class ObjectiveTextManager : MonoBehaviour
     {
         SetTexts();
         MissionObjPos = new Vector3(PaddingX, -PaddingY, 0); 
+
         for (int k = 0; k < objMgr.ActiveMissions.Count; k++)
         {
             RectTransform rectTransform = MissionObjects[k].GetComponent<RectTransform>();
             rectTransform.localPosition = MissionObjPos;
             MissionObjPos += (rectTransform.rect.height + spacing - 40) * Vector3.down;
+            MissionObjects[k].transform.localScale = Vector3.one;
+
         }
 
     }
-
-
 
 }
