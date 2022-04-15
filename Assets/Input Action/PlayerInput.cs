@@ -31,7 +31,12 @@ public class PlayerInput : MonoBehaviour
         GetComponent<ThrowItem>().ItemThrowing(throwRay);
     }
 
+    void OnRotateCamera(InputValue mouseDeltaInput)
+    {
+        float rotateValue = mouseDeltaInput.Get<Vector2>().x;
+        CameraParent.Rotate(Vector3.up, rotateValue * Time.deltaTime * 10);
 
+    }
 
     //UI Input
     void OnBack(InputValue backInput)
@@ -54,12 +59,7 @@ public class PlayerInput : MonoBehaviour
 
 
     public Transform CameraParent;
-    void OnRotateCamera(InputValue mouseDeltaInput)
-    {
-        float rotateValue = mouseDeltaInput.Get<Vector2>().x;
-        CameraParent.Rotate(Vector3.up, rotateValue * Time.deltaTime * 10);
-        
-    }
+    
 
     void OnToggleInventory(InputValue inventoryInput)
     {
