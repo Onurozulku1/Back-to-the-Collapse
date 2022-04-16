@@ -18,6 +18,10 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void UpdateState(EnemyStateManager enemy)
     {
+        lookRotation = (Properties.Player.transform.position - enemy.transform.position).normalized;
+        lookRotation.y = 0;
+        enemy.transform.rotation = Quaternion.LookRotation(lookRotation);
+
         if (!Controller.EnemyFOV())
         {
             enemy.SwitchState(enemy.SearchingState);
@@ -32,8 +36,7 @@ public class EnemyAttackState : EnemyBaseState
 
         lookRotation = (Properties.Player.transform.position - enemy.transform.position).normalized;
         lookRotation.y = 0;
-
-        enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, Quaternion.LookRotation(lookRotation), 0.1f);
+        enemy.transform.rotation = Quaternion.LookRotation(lookRotation);
 
         Controller.Agent.SetDestination(Properties.Player.position);
 

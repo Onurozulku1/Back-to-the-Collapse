@@ -17,8 +17,8 @@ MonoBehaviour:
   PatrollingSpeed: 1
   HearRange: 5
   SightRange: 13
-  VisionAngle: 120
-  NoticeAngle: 180
+  VisionAngle: 60
+  NoticeAngle: 120
   NoticeTime: 2
   SearchingTime: 5
   Player: {fileID: 0}

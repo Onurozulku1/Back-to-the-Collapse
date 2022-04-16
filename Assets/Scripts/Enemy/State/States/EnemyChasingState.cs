@@ -3,6 +3,7 @@ using System;
 
 public class EnemyChasingState : EnemyBaseState
 {
+    private Vector3 lookRotation;
 
     public override void AwakeState(EnemyStateManager enemy)
     {
@@ -18,8 +19,13 @@ public class EnemyChasingState : EnemyBaseState
         enemy.SearchingState.target = Properties.Player;
     }
 
+
     public override void UpdateState(EnemyStateManager enemy)
     {
+        lookRotation = (Properties.Player.transform.position - enemy.transform.position).normalized;
+        lookRotation.y = 0;
+        enemy.transform.rotation = Quaternion.Lerp(enemy.transform.rotation, Quaternion.LookRotation(lookRotation, Vector3.up), 0.2f);
+
         if (!Controller.EnemyFOV())
         {
             enemy.SwitchState(enemy.SearchingState);
@@ -34,9 +40,7 @@ public class EnemyChasingState : EnemyBaseState
 
         Controller.Agent.SetDestination(Properties.Player.position);
 
-        
 
-        
 
     }
    
