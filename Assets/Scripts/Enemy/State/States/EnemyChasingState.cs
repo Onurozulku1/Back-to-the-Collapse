@@ -9,7 +9,7 @@ public class EnemyChasingState : EnemyBaseState
     {
         enemyCombat = new EnemyCombat();
         Controller = enemy.Controller;
-        Properties = Controller.Properties;
+        Properties = Controller.enemyProperties;
     }
 
     public override void EnterState(EnemyStateManager enemy)
@@ -17,6 +17,7 @@ public class EnemyChasingState : EnemyBaseState
         Controller.Agent.speed = Properties.ChasingSpeed;
         Controller.Agent.stoppingDistance = 2;
         enemy.SearchingState.target = Properties.Player;
+        Controller.NotifyPartners();
     }
 
 

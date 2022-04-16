@@ -20,7 +20,7 @@ public class EnemySearchingState : EnemyBaseState
     public override void AwakeState(EnemyStateManager enemy)
     {
         Controller = enemy.Controller;
-        Properties = Controller.Properties;
+        Properties = Controller.enemyProperties;
         target = Properties.Player;
     }
 

@@ -12,6 +12,7 @@ public class EnemyStateManager : MonoBehaviour
     public EnemySearchingState SearchingState = new();
     public EnemyIdleState IdleState = new();
     public EnemyPatrollingState PatrollingState = new();
+    public EnemyFollowingPartnerState FollowingPartnerState = new();
 
     public EnemyController Controller;
     
@@ -27,6 +28,8 @@ public class EnemyStateManager : MonoBehaviour
         SearchingState.AwakeState(this);
         IdleState.AwakeState(this);
         AttackState.AwakeState(this);
+        PatrollingState.AwakeState(this);
+        FollowingPartnerState.AwakeState(this);
     }
 
     void Start()
@@ -38,6 +41,7 @@ public class EnemyStateManager : MonoBehaviour
     void Update()
     {
         currentState.UpdateState(this);
+        Debug.Log(currentState);
     }
 
     public void SwitchState(EnemyBaseState state)

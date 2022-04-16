@@ -35,6 +35,9 @@ public class ThrowItem : MonoBehaviour
 
     private void Launch()
     {
+        if (GetComponent<PlayerController>().ThrowableObject == null)
+            return;
+
         Physics.gravity = Vector3.up * gravity;
         GameObject trwObject = GetComponent<PlayerController>().ThrowableObject;
         trwObject.transform.position = transform.position + transform.forward + transform.up;

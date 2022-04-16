@@ -16,7 +16,7 @@ public class HealthBar : MonoBehaviour
     public void SetBar()
     {
         transform.LookAt(Camera.main.transform);
-        noticeBar.fillAmount = ec.noticeTimer / ec.Properties.NoticeTime;
+        noticeBar.fillAmount = ec.noticeTimer / ec.enemyProperties.NoticeTime;
     }
 
     private void Update()

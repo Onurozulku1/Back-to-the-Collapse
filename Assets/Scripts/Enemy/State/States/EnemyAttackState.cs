@@ -8,7 +8,7 @@ public class EnemyAttackState : EnemyBaseState
     {
         enemyCombat = new EnemyCombat();
         Controller = enemy.Controller;
-        Properties = Controller.Properties;
+        Properties = Controller.enemyProperties;
     }
 
     public override void EnterState(EnemyStateManager enemy)

@@ -13,7 +13,7 @@ public class EnemyIdleState : EnemyBaseState
     public override void AwakeState(EnemyStateManager enemy)
     {
         Controller = enemy.Controller;
-        Properties = Controller.Properties;
+        Properties = Controller.enemyProperties;
         FirstPosition = enemy.transform.position;
         FirstRotation = enemy.transform.rotation;
     }

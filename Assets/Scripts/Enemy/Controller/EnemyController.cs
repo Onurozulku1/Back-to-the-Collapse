@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public EnemyProperties Properties;
+    public EnemyProperties enemyProperties;
     [HideInInspector] public NavMeshAgent Agent;
 
     public bool isPatrolling = false;
@@ -15,15 +15,22 @@ public class EnemyController : MonoBehaviour
     private float PlayerDistance = 200f;
 
     //Combat
-    [Header("Combat Properties")]
     [HideInInspector] public EnemyCombat enemyCombat = new EnemyCombat();
+    [Header("Combat Properties")]
     public float AttackRange = 3;
     public float AttackRate = 1;
 
+    [Header("Noticing Properties")]
+    public float noticeTimer = 0;
+    public float resetNoticeTimer = 0;
+    public bool EnemyHeard = false;
+
+    [Header("Notify Properties")]
+    public float NotifyEnemyRadius = 8;
 
     private void Awake()
     {
-        Properties.Player = GameObject.FindGameObjectWithTag("Player").transform;
+        enemyProperties.Player = GameObject.FindGameObjectWithTag("Player").transform;
         enemyStateManager = GetComponent<EnemyStateManager>();
 
         if (GetComponent<NavMeshAgent>() != null)
@@ -34,8 +41,8 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        PlayerAngle = Vector3.Angle(transform.forward, (Properties.Player.position - transform.position).normalized);
-        PlayerDistance = Vector3.Distance(Properties.Player.position, transform.position);
+        PlayerAngle = Vector3.Angle(transform.forward, (enemyProperties.Player.position - transform.position).normalized);
+        PlayerDistance = Vector3.Distance(enemyProperties.Player.position, transform.position);
 
         EnemyHearing();
 
@@ -50,12 +57,11 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    public float noticeTimer = 0;
-    public float resetNoticeTimer = 0;
+    
     private bool Noticing()
     {
         resetNoticeTimer = 0;
-        if (noticeTimer < Properties.NoticeTime)
+        if (noticeTimer < enemyProperties.NoticeTime)
         {
             hBar.gameObject.SetActive(true);
             noticeTimer += Time.deltaTime;
@@ -71,19 +77,19 @@ public class EnemyController : MonoBehaviour
 
     public bool EnemyFOV()
     {
-        if (Physics.Raycast(transform.position, (Properties.Player.position - transform.position).normalized, out RaycastHit hit, Properties.SightRange))
+        if (Physics.Raycast(transform.position, (enemyProperties.Player.position - transform.position).normalized, out RaycastHit hit, enemyProperties.SightRange))
         {
             if (hit.collider.CompareTag("Player"))
             {
-                if (PlayerAngle < (Properties.VisionAngle) && PlayerDistance < Properties.SightRange)
+                if (PlayerAngle < (enemyProperties.VisionAngle) && PlayerDistance < enemyProperties.SightRange)
                 {
                     return true;
                 }
-                else if (PlayerAngle < (Properties.VisionAngle * 0.8f) && PlayerDistance > Properties.SightRange && PlayerDistance < Properties.SightRange * 1.2f)
+                else if (PlayerAngle < (enemyProperties.VisionAngle * 0.8f) && PlayerDistance > enemyProperties.SightRange && PlayerDistance < enemyProperties.SightRange * 1.2f)
                 {
                     return Noticing();
                 }
-                else if (PlayerAngle > (Properties.VisionAngle) && PlayerAngle < (Properties.NoticeAngle) && PlayerDistance < Properties.SightRange * 0.4f)
+                else if (PlayerAngle > (enemyProperties.VisionAngle) && PlayerAngle < (enemyProperties.NoticeAngle) && PlayerDistance < enemyProperties.SightRange * 0.4f)
                 {
                     return Noticing();
                 }
@@ -104,30 +110,26 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-    
-
     #region Hearing
-
-    public bool EnemyHeard = false;
     private IEnumerator HeardPlayer()
     {
-        yield return new WaitForSeconds(Properties.SearchingTime);
+        yield return new WaitForSeconds(enemyProperties.SearchingTime);
         EnemyHeard = false;
     }
     public void EnemyHearing()
     {
-        if (PlayerDistance > Properties.HearRange || Properties.Player.GetComponent<PlayerMovement>().isCrouching) 
+        if (PlayerDistance > enemyProperties.HearRange || enemyProperties.Player.GetComponent<PlayerMovement>().isCrouching) 
         {
             return;
         }
 
-        if (!Properties.Player.GetComponent<PlayerMovement>().isCrouching && Mathf.RoundToInt(Properties.Player.GetComponent<CharacterController>().velocity.magnitude) == 0)
+        if (!enemyProperties.Player.GetComponent<PlayerMovement>().isCrouching && Mathf.RoundToInt(enemyProperties.Player.GetComponent<CharacterController>().velocity.magnitude) == 0)
         {
             return;
 
         }
 
-        if (Physics.Raycast(transform.position,(Properties.Player.position - transform.position).normalized, out RaycastHit hit))
+        if (Physics.Raycast(transform.position,(enemyProperties.Player.position - transform.position).normalized, out RaycastHit hit))
         {
             if (!hit.collider.CompareTag("Player"))
             {
@@ -156,35 +158,54 @@ public class EnemyController : MonoBehaviour
     }
     public void FaceToHeardPoint()
     {
-        Vector3 lookRotation = (Properties.Player.position - transform.position).normalized;
+        Vector3 lookRotation = (enemyProperties.Player.position - transform.position).normalized;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookRotation, Vector3.up), 0.05f);
         StartCoroutine(HeardPlayer());
     }
 
+    public void NotifyPartners()
+    {
+        Collider[] enemyStates;
+        enemyStates = Physics.OverlapSphere(transform.position, NotifyEnemyRadius);
+        foreach (Collider enemy in enemyStates)
+        {
+            if (enemy.GetComponent<EnemyStateManager>() != null && enemy.gameObject != gameObject && enemyStateManager.FollowingPartnerState.followingPartner != enemy)
+            {
+                EnemyStateManager eState = enemy.GetComponent<EnemyStateManager>();
+                eState.FollowingPartnerState.followingPartner = enemyStateManager;
+                eState.currentState = eState.FollowingPartnerState;
+            }
+            
+        }
+
+    }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
 
-        Quaternion leftRayRotation = Quaternion.AngleAxis(-Properties.VisionAngle, Vector3.up);
-        Quaternion rightRayRotation = Quaternion.AngleAxis(Properties.VisionAngle, Vector3.up);
+        Quaternion leftRayRotation = Quaternion.AngleAxis(-enemyProperties.VisionAngle, Vector3.up);
+        Quaternion rightRayRotation = Quaternion.AngleAxis(enemyProperties.VisionAngle, Vector3.up);
         Vector3 leftRayDirection = leftRayRotation * transform.forward;
         Vector3 rightRayDirection = rightRayRotation * transform.forward;
-        Gizmos.DrawRay(transform.position, leftRayDirection * Properties.SightRange);
-        Gizmos.DrawRay(transform.position, rightRayDirection * Properties.SightRange);
-        Gizmos.DrawRay(transform.position, transform.forward * Properties.SightRange);
-        Gizmos.DrawWireSphere(transform.position, Properties.HearRange);
+        Gizmos.DrawRay(transform.position, leftRayDirection * enemyProperties.SightRange);
+        Gizmos.DrawRay(transform.position, rightRayDirection * enemyProperties.SightRange);
+        Gizmos.DrawRay(transform.position, transform.forward * enemyProperties.SightRange);
+        Gizmos.DrawWireSphere(transform.position, enemyProperties.HearRange);
 
         Gizmos.color = Color.magenta;
-        Quaternion leftRayRotation2 = Quaternion.AngleAxis(-Properties.NoticeAngle, Vector3.up);
-        Quaternion rightRayRotation2 = Quaternion.AngleAxis(Properties.NoticeAngle, Vector3.up);
+        Quaternion leftRayRotation2 = Quaternion.AngleAxis(-enemyProperties.NoticeAngle, Vector3.up);
+        Quaternion rightRayRotation2 = Quaternion.AngleAxis(enemyProperties.NoticeAngle, Vector3.up);
         Vector3 leftRayDirection2 = leftRayRotation2 * transform.forward;
         Vector3 rightRayDirection2 = rightRayRotation2 * transform.forward;
-        Gizmos.DrawRay(transform.position, 0.4f * Properties.SightRange * leftRayDirection2);
-        Gizmos.DrawRay(transform.position, 0.4f * Properties.SightRange * rightRayDirection2);
+        Gizmos.DrawRay(transform.position, 0.4f * enemyProperties.SightRange * leftRayDirection2);
+        Gizmos.DrawRay(transform.position, 0.4f * enemyProperties.SightRange * rightRayDirection2);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, NotifyEnemyRadius);
+
+
     }
-
-
     private void OnEnable()
     {
         GameManager.PauseGameAction += (bool isPaused) => enabled = !isPaused;
