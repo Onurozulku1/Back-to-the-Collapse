@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour
 
     public bool isPatrolling = false;
 
-    private HealthBar hBar;
+    private NoticeBar hBar;
     //FOV
     private float PlayerAngle = 200f;
     private float PlayerDistance = 200f;
@@ -27,16 +27,16 @@ public class EnemyController : MonoBehaviour
 
     [Header("Notify Properties")]
     public float NotifyEnemyRadius = 8;
-
+    public LayerMask enemyMask;
     private void Awake()
     {
         enemyProperties.Player = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyStateManager = GetComponent<EnemyStateManager>();
+        thisStateManager = GetComponent<EnemyStateManager>();
 
         if (GetComponent<NavMeshAgent>() != null)
             Agent = GetComponent<NavMeshAgent>();
 
-        hBar = GetComponentInChildren<HealthBar>();
+        hBar = GetComponentInChildren<NoticeBar>();
     }
 
     private void Update()
@@ -46,7 +46,7 @@ public class EnemyController : MonoBehaviour
 
         EnemyHearing();
 
-        if (enemyStateManager.currentState == enemyStateManager.AttackState || enemyStateManager.currentState == enemyStateManager.ChasingState)
+        if (thisStateManager.currentState == thisStateManager.AttackState || thisStateManager.currentState == thisStateManager.ChasingState)
         {
             if (hBar.gameObject.activeSelf)
             {
@@ -54,10 +54,9 @@ public class EnemyController : MonoBehaviour
                 hBar.gameObject.SetActive(false);
             }
         }
+
     }
 
-
-    
     private bool Noticing()
     {
         resetNoticeTimer = 0;
@@ -142,12 +141,12 @@ public class EnemyController : MonoBehaviour
 
     #endregion
 
-    private EnemyStateManager enemyStateManager;
+    private EnemyStateManager thisStateManager;
     public void CheckPlayer()
     {
         if (EnemyFOV())
         {
-            enemyStateManager.SwitchState(enemyStateManager.ChasingState);
+            thisStateManager.SwitchState(thisStateManager.ChasingState);
             return;
         }
 
@@ -165,19 +164,28 @@ public class EnemyController : MonoBehaviour
 
     public void NotifyPartners()
     {
-        Collider[] enemyStates;
-        enemyStates = Physics.OverlapSphere(transform.position, NotifyEnemyRadius);
-        foreach (Collider enemy in enemyStates)
-        {
-            if (enemy.GetComponent<EnemyStateManager>() != null && enemy.gameObject != gameObject && enemyStateManager.FollowingPartnerState.followingPartner != enemy)
-            {
-                EnemyStateManager eState = enemy.GetComponent<EnemyStateManager>();
-                eState.FollowingPartnerState.followingPartner = enemyStateManager;
-                eState.currentState = eState.FollowingPartnerState;
-            }
-            
-        }
+        Collider[] enemies = Physics.OverlapSphere(transform.position, NotifyEnemyRadius, enemyMask);
 
+        foreach (var enemy in enemies)
+        {
+            EnemyStateManager eState;
+            eState = enemy.GetComponent<EnemyStateManager>();
+
+            if (enemy.gameObject == gameObject)
+                return;
+
+            if (eState.currentState == eState.ChasingState || eState.currentState == eState.FollowingState || eState.currentState == eState.AttackState)
+                return;
+
+            if (thisStateManager.FollowingState.leader != null)
+                return;
+
+
+
+            eState.FollowingState.leader = thisStateManager;
+            eState.currentState = eState.FollowingState;
+
+        }
     }
 
     private void OnDrawGizmos()

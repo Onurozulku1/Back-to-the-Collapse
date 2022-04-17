@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFollowingPartnerState : EnemyBaseState
+public class EnemyFollowingState : EnemyBaseState
 {
-    public EnemyStateManager followingPartner;
+    public EnemyStateManager leader;
     public override void AwakeState(EnemyStateManager enemy)
     {
         Controller = enemy.Controller;
@@ -15,18 +15,24 @@ public class EnemyFollowingPartnerState : EnemyBaseState
     {
         Controller.Agent.ResetPath();
         Controller.Agent.speed = Properties.ChasingSpeed;
-        Controller.Agent.stoppingDistance = 4;
     }
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        if (followingPartner == null)
+        Controller.Agent.stoppingDistance = 4;
+
+        if (leader == null)
             return;
 
         Controller.CheckPlayer();
-        Controller.Agent.SetDestination(followingPartner.transform.position);
+        Controller.Agent.SetDestination(leader.transform.position);
 
-        if (followingPartner.currentState != followingPartner.ChasingState)
-            enemy.SwitchState(followingPartner.currentState);
+        if (leader.currentState == leader.IdleState || leader.currentState == leader.AttackState || leader.currentState == leader.SearchingState)
+            enemy.SwitchState(leader.currentState);
+
+        Debug.Log(Controller.Agent.stoppingDistance);
+        
     }
+
+    
 }
