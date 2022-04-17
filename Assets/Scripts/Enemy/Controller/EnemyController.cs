@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(Random.onUnitSphere);
         PlayerAngle = Vector3.Angle(transform.forward, (enemyProperties.Player.position - transform.position).normalized);
         PlayerDistance = Vector3.Distance(enemyProperties.Player.position, transform.position);
 

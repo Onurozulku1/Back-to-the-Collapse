@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyFollowingState : EnemyBaseState
 {
     public EnemyStateManager leader;
-    private float searchRadius = 8;
+    private float searchRadius = 10;
     private bool goSearching = true;
     public override void AwakeState(EnemyStateManager enemy)
     {
@@ -47,8 +47,9 @@ public class EnemyFollowingState : EnemyBaseState
             }
             Controller.Agent.stoppingDistance = 0;
             Controller.Agent.SetDestination(finalPosition);
+                
 
-            if (Vector3.Distance(enemy.transform.position,finalPosition) < Controller.Agent.stoppingDistance + 2)
+            if (Vector3.Distance(enemy.transform.position, finalPosition) < 3)
             {
                 observeTimer += Time.deltaTime;
                 if (observeTimer >= Properties.SearchingTime)
@@ -66,11 +67,13 @@ public class EnemyFollowingState : EnemyBaseState
     }
 
     private float observeTimer;
+    private Vector3 searchArea;
     private Vector3 finalPosition;
     private Vector3 PointAroundLeader()
     {
-        Vector3 randomDirection = Random.insideUnitSphere.normalized * searchRadius;
-        randomDirection += leader.SearchingState.LastSeenPoint;
+        Vector3 randomDirection = Random.onUnitSphere * searchRadius;
+        searchArea = leader.SearchingState.LastSeenPoint + (Properties.Player.position - leader.transform.position).normalized * searchRadius;
+        randomDirection += searchArea;
         UnityEngine.AI.NavMesh.SamplePosition(randomDirection, out UnityEngine.AI.NavMeshHit hit, searchRadius, 1);
         return hit.position;
 
