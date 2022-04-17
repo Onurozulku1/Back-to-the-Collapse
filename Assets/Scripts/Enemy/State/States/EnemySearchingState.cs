@@ -14,8 +14,8 @@ public class EnemySearchingState : EnemyBaseState
 
     public Transform target;
 
-    bool RunningLastSeenPoint = false;
-    Vector3 LastSeenPoint;
+    public bool RunningLastSeenPoint = true;
+    [HideInInspector] public Vector3 LastSeenPoint;
 
     public override void AwakeState(EnemyStateManager enemy)
     {

@@ -28,6 +28,7 @@ public class EnemyController : MonoBehaviour
     [Header("Notify Properties")]
     public float NotifyEnemyRadius = 8;
     public LayerMask enemyMask;
+    [HideInInspector] public NavMeshHit followHit;
     private void Awake()
     {
         enemyProperties.Player = GameObject.FindGameObjectWithTag("Player").transform;
