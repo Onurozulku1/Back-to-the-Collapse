@@ -75,24 +75,28 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private float visionRange;
     public bool EnemyFOV()
     {
         if (Physics.Raycast(transform.position, (enemyProperties.Player.position - transform.position).normalized, out RaycastHit hit, enemyProperties.SightRange))
         {
             if (hit.collider.CompareTag("Player"))
             {
-                if (PlayerAngle < (enemyProperties.VisionAngle) && PlayerDistance < enemyProperties.SightRange)
-                {
+
+                if (thisStateManager.currentState == thisStateManager.ChasingState)
+                    visionRange = enemyProperties.SightRange * 1.5f;
+                else
+                    visionRange = enemyProperties.SightRange;
+
+
+                if (PlayerAngle < (enemyProperties.VisionAngle) && PlayerDistance < visionRange)
                     return true;
-                }
+
                 else if (PlayerAngle < (enemyProperties.VisionAngle * 0.8f) && PlayerDistance > enemyProperties.SightRange && PlayerDistance < enemyProperties.SightRange * 1.2f)
-                {
                     return Noticing();
-                }
+
                 else if (PlayerAngle > (enemyProperties.VisionAngle) && PlayerAngle < (enemyProperties.NoticeAngle) && PlayerDistance < enemyProperties.SightRange * 0.4f)
-                {
                     return Noticing();
-                }
             }
         }
 

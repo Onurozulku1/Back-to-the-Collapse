@@ -48,11 +48,24 @@ public class EnemyFollowingState : EnemyBaseState
             Controller.Agent.stoppingDistance = 0;
             Controller.Agent.SetDestination(finalPosition);
 
+            if (Vector3.Distance(enemy.transform.position,finalPosition) < Controller.Agent.stoppingDistance + 2)
+            {
+                observeTimer += Time.deltaTime;
+                if (observeTimer >= Properties.SearchingTime)
+                {
+                    observeTimer = 0;
+                    goSearching = true;
+                    leader = null;
+                    enemy.SwitchState(enemy.IdleState);
+                }
+            }
+
         }
 
 
     }
 
+    private float observeTimer;
     private Vector3 finalPosition;
     private Vector3 PointAroundLeader()
     {
