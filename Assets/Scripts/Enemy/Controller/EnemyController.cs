@@ -29,6 +29,9 @@ public class EnemyController : MonoBehaviour
     public float NotifyEnemyRadius = 8;
     public LayerMask enemyMask;
     [HideInInspector] public NavMeshHit followHit;
+
+    public EnemyStateManager[] enemies;
+
     private void Awake()
     {
         enemyProperties.Player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -38,11 +41,13 @@ public class EnemyController : MonoBehaviour
             Agent = GetComponent<NavMeshAgent>();
 
         hBar = GetComponentInChildren<NoticeBar>();
+
+        enemies = FindObjectsOfType<EnemyStateManager>();
+
     }
 
     private void Update()
     {
-        Debug.Log(Random.onUnitSphere);
         PlayerAngle = Vector3.Angle(transform.forward, (enemyProperties.Player.position - transform.position).normalized);
         PlayerDistance = Vector3.Distance(enemyProperties.Player.position, transform.position);
 
@@ -56,7 +61,6 @@ public class EnemyController : MonoBehaviour
                 hBar.gameObject.SetActive(false);
             }
         }
-
     }
 
     private bool Noticing()
@@ -85,7 +89,7 @@ public class EnemyController : MonoBehaviour
             {
 
                 if (thisStateManager.currentState == thisStateManager.ChasingState)
-                    visionRange = enemyProperties.SightRange * 1.5f;
+                    visionRange = enemyProperties.SightRange * 2f;
                 else
                     visionRange = enemyProperties.SightRange;
 
@@ -155,11 +159,11 @@ public class EnemyController : MonoBehaviour
             thisStateManager.SwitchState(thisStateManager.ChasingState);
             return;
         }
-
         if (EnemyHeard)
         {
             FaceToHeardPoint();
         }
+
     }
     public void FaceToHeardPoint()
     {
@@ -168,29 +172,22 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(HeardPlayer());
     }
 
-    public void NotifyPartners()
+    public void NotifyPartners(EnemyStateManager enemy)
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, NotifyEnemyRadius, enemyMask);
-
-        foreach (var enemy in enemies)
+        if (Vector3.Distance(transform.position, enemy.transform.position) < 50)
         {
-            EnemyStateManager eState;
-            eState = enemy.GetComponent<EnemyStateManager>();
-
             if (enemy.gameObject == gameObject)
                 return;
 
-            if (eState.currentState == eState.ChasingState || eState.currentState == eState.FollowingState || eState.currentState == eState.AttackState)
+            if (enemy.currentState == enemy.ChasingState || enemy.currentState == enemy.FollowingState || enemy.currentState == enemy.AttackState)
                 return;
 
             if (thisStateManager.FollowingState.leader != null)
                 return;
 
 
-
-            eState.FollowingState.leader = thisStateManager;
-            eState.currentState = eState.FollowingState;
-
+            enemy.FollowingState.leader = thisStateManager;
+            enemy.currentState = enemy.FollowingState;
         }
     }
 

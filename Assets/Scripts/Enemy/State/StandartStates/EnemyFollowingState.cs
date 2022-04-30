@@ -42,23 +42,18 @@ public class EnemyFollowingState : EnemyBaseState
         {
             if (goSearching)
             {
-                finalPosition = PointAroundLeader();
+                finalPosition = PointAroundLeader(enemy);
                 goSearching = false;
             }
             Controller.Agent.stoppingDistance = 0;
             Controller.Agent.SetDestination(finalPosition);
-                
 
             if (Vector3.Distance(enemy.transform.position, finalPosition) < 3)
             {
-                observeTimer += Time.deltaTime;
-                if (observeTimer >= Properties.SearchingTime)
-                {
-                    observeTimer = 0;
-                    goSearching = true;
-                    leader = null;
-                    enemy.SwitchState(enemy.IdleState);
-                }
+                goSearching = true;
+                leader = null;
+                enemy.SwitchState(enemy.IdleState);
+                
             }
 
         }
@@ -69,10 +64,14 @@ public class EnemyFollowingState : EnemyBaseState
     private float observeTimer;
     private Vector3 searchArea;
     private Vector3 finalPosition;
-    private Vector3 PointAroundLeader()
+    private float distance;
+    private Vector3 PointAroundLeader(EnemyStateManager enemy)
     {
-        Vector3 randomDirection = Random.onUnitSphere * searchRadius;
-        searchArea = leader.SearchingState.LastSeenPoint + (Properties.Player.position - leader.transform.position).normalized * searchRadius;
+        distance = Vector3.Distance(leader.transform.position, Properties.Player.position);
+        Vector3 randomDirection = Random.onUnitSphere * distance;
+        //Vector3 randomDirection = Random.onUnitSphere * searchRadius;
+        //searchArea = leader.SearchingState.LastSeenPoint + (Properties.Player.position - leader.transform.position).normalized * searchRadius;
+        searchArea = (leader.SearchingState.LastSeenPoint + Properties.Player.position) * 0.5f;
         randomDirection += searchArea;
         UnityEngine.AI.NavMesh.SamplePosition(randomDirection, out UnityEngine.AI.NavMeshHit hit, searchRadius, 1);
         return hit.position;

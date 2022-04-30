@@ -17,6 +17,8 @@ public class EnemySearchingState : EnemyBaseState
     public bool RunningLastSeenPoint = true;
     [HideInInspector] public Vector3 LastSeenPoint;
 
+    private EnemyStateManager[] enemies;
+
     public override void AwakeState(EnemyStateManager enemy)
     {
         Controller = enemy.Controller;
@@ -35,6 +37,8 @@ public class EnemySearchingState : EnemyBaseState
         LastSeenPos = new Queue<Vector3>();
         LastSeenPos.Enqueue(target.position);
         Controller.Agent.SetDestination(LastSeenPos.Peek());
+
+
     }
 
     public override void UpdateState(EnemyStateManager enemy)
