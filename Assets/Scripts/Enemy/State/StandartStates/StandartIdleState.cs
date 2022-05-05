@@ -1,6 +1,8 @@
-﻿using UnityEngine;
 using System.Collections;
-public class EnemyIdleState : EnemyBaseState
+using System.Collections.Generic;
+using UnityEngine;
+
+public class StandartIdleState : EnemyIdleState
 {
     private float waitTimer = 0;
     private float StopTime = 5;
@@ -12,15 +14,14 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void AwakeState(EnemyStateManager enemy)
     {
-        Controller = enemy.Controller;
-        Properties = Controller.enemyProperties;
+        base.AwakeState(enemy);
         FirstPosition = enemy.transform.position;
         FirstRotation = enemy.transform.rotation;
     }
 
     public override void EnterState(EnemyStateManager enemy)
     {
-        Controller.Agent.stoppingDistance = 0;
+        base.EnterState(enemy);
         waitTimer = 0;
 
         isIdling = OnLocation(enemy);
@@ -28,6 +29,7 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void UpdateState(EnemyStateManager enemy)
     {
+        base.UpdateState(enemy);
         Controller.CheckPlayer();
 
         if (OnLocation(enemy))
@@ -48,14 +50,10 @@ public class EnemyIdleState : EnemyBaseState
             Controller.Agent.SetDestination(FirstPosition);
             Controller.Agent.stoppingDistance = 0;
         }
-
-        
-        
     }
 
     private bool OnLocation(EnemyStateManager enemy)
     {
         return (Vector3.Distance(FirstPosition, enemy.transform.position) < 1);
     }
-
 }

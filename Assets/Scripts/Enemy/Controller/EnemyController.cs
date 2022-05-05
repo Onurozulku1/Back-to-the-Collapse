@@ -119,39 +119,6 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-    #region Hearing
-    private IEnumerator HeardPlayer()
-    {
-        yield return new WaitForSeconds(enemyProperties.SearchingTime);
-        EnemyHeard = false;
-    }
-    public void EnemyHearing()
-    {
-        if (PlayerDistance > enemyProperties.HearRange || enemyProperties.Player.GetComponent<PlayerMovement>().isCrouching) 
-        {
-            return;
-        }
-
-        if (!enemyProperties.Player.GetComponent<PlayerMovement>().isCrouching && Mathf.RoundToInt(enemyProperties.Player.GetComponent<CharacterController>().velocity.magnitude) == 0)
-        {
-            return;
-
-        }
-
-        if (Physics.Raycast(transform.position,(enemyProperties.Player.position - transform.position).normalized, out RaycastHit hit))
-        {
-            if (!hit.collider.CompareTag("Player"))
-            {
-                return;
-            }
-        }
-
-        EnemyHeard = true;
-    }
-
-    #endregion
-
-    private EnemyStateManager thisStateManager;
     public void CheckPlayer()
     {
         if (EnemyFOV())
@@ -171,7 +138,6 @@ public class EnemyController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookRotation, Vector3.up), 0.05f);
         StartCoroutine(HeardPlayer());
     }
-
     public void NotifyPartners(EnemyStateManager enemy)
     {
         if (Vector3.Distance(transform.position, enemy.transform.position) < 50)
@@ -190,6 +156,41 @@ public class EnemyController : MonoBehaviour
             enemy.currentState = enemy.FollowingState;
         }
     }
+
+    #region Hearing
+    private IEnumerator HeardPlayer()
+    {
+        yield return new WaitForSeconds(enemyProperties.SearchingTime);
+        EnemyHeard = false;
+    }
+    public void EnemyHearing()
+    {
+        if (PlayerDistance > enemyProperties.HearRange || enemyProperties.Player.GetComponent<PlayerMovement>().isCrouching)
+        {
+            return;
+        }
+
+        if (!enemyProperties.Player.GetComponent<PlayerMovement>().isCrouching && Mathf.RoundToInt(enemyProperties.Player.GetComponent<CharacterController>().velocity.magnitude) == 0)
+        {
+            return;
+
+        }
+
+        if (Physics.Raycast(transform.position, (enemyProperties.Player.position - transform.position).normalized, out RaycastHit hit))
+        {
+            if (!hit.collider.CompareTag("Player"))
+            {
+                return;
+            }
+        }
+
+        EnemyHeard = true;
+    }
+
+    #endregion
+
+    private EnemyStateManager thisStateManager;
+    
 
     private void OnDrawGizmos()
     {

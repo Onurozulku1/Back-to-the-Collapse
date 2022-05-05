@@ -7,10 +7,11 @@ public class EnemyStateManager : MonoBehaviour
 
     public EnemyBaseState currentState;
 
-    public EnemyChasingState ChasingState = new();
+    public EnemyIdleState IdleState;
+    public EnemyChasingState ChasingState;
+
     public EnemyAttackState AttackState = new();
     public EnemySearchingState SearchingState = new();
-    public EnemyIdleState IdleState = new();
     public EnemyPatrollingState PatrollingState = new();
     public EnemyFollowingState FollowingState = new();
 
@@ -19,10 +20,25 @@ public class EnemyStateManager : MonoBehaviour
 
     private void Awake()
     {
-        if (GetComponent<EnemyController>() != null)
+        if (GetComponent<EnemyController>() == null)
+            Controller = gameObject.AddComponent(typeof(EnemyController)) as EnemyController;  
+        else
+            Controller = GetComponent<EnemyController>();
+
+
+        if (Controller.enemyProperties.enemyType == EnemyProperties.EnemyType.standart)
+        {
+            IdleState = new StandartIdleState();
+            ChasingState = new StandartChasingState();
+        }
+        else if (Controller.enemyProperties.enemyType == EnemyProperties.EnemyType.blind)
         {
             Controller = GetComponent<EnemyController>();
+
+            IdleState = new BlindIdleState();
+            ChasingState = new BlindChasingState();
         }
+
 
         ChasingState.AwakeState(this);
         SearchingState.AwakeState(this);
