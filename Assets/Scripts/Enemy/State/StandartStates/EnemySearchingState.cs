@@ -82,6 +82,9 @@ public class EnemySearchingState : EnemyBaseState
                 LastSeenPos.Dequeue();
             }
 
+            if (LastSeenPos.Peek() == null)
+                return;
+
             Controller.Agent.SetDestination(LastSeenPos.Peek());
 
         }

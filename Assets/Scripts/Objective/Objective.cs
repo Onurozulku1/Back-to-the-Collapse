@@ -22,6 +22,7 @@ public class Objective : ScriptableObject
     public virtual void OnComplete()
     {
         ObjectiveManager.instance.CompleteObjective(this);
+        Debug.Log("Objective Completed");
     }
 
 }

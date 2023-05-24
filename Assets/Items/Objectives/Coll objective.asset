@@ -15,14 +15,12 @@ MonoBehaviour:
   Description: 'Find the key
 
 '
-  IsActive: 1
+  IsActive: 0
   BridgeObjective: {fileID: 0}
   ParentMission:
-    Title: Escape from cell
+    Title: Run Away
     objectives:
     - {fileID: 11400000}
-    - {fileID: 11400000, guid: 4d7aa69ec9a29e64d810f98d06c170d3, type: 2}
     IsActive: 1
   RequiredItems:
-  - {fileID: 11400000, guid: 472909a0aafc49843b10d1f10254e2e7, type: 2}
   - {fileID: 11400000, guid: 4cd14e7cda3e50e429bd367dd26d99ca, type: 2}

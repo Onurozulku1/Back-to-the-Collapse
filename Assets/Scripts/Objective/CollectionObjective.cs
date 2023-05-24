@@ -14,7 +14,6 @@ public class CollectionObjective : Objective
     public override void OnComplete()
     {
         base.OnComplete();
-        Debug.Log("itemler tamamlandý");
 
     }
 
